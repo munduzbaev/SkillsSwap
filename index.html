@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills Swap — Обменивайся навыками</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b2a;
+    --blue: #1a3a5c;
+    --accent: #2d7dd2;
+    --sky: #4da6ff;
+    --gold: #f0a500;
+    --white: #f5f7fa;
+    --gray: #8a9ab0;
+    --card: #111e2e;
+    --border: rgba(77,166,255,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(45,125,210,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 80%, rgba(13,27,42,0.8) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 5%;
+    background: rgba(13,27,42,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.4rem;
+    color: var(--white); text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .logo-icon {
+    width: 34px; height: 34px;
+    background: linear-gradient(135deg, var(--accent), var(--sky));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+
+  .nav-links {
+    display: flex; align-items: center; gap: 8px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--gray); text-decoration: none;
+    font-size: 0.9rem; padding: 8px 14px;
+    border-radius: 8px; transition: all 0.2s;
+    font-weight: 400;
+  }
+
+  .nav-links a:hover { color: var(--white); background: rgba(255,255,255,0.06); }
+
+  .nav-cta {
+    background: linear-gradient(135deg, var(--accent), var(--sky));
+    color: var(--white) !important;
+    padding: 9px 20px !important;
+    border-radius: 10px !important;
+    font-weight: 500 !important;
+    transition: opacity 0.2s !important;
+  }
+  .nav-cta:hover { opacity: 0.88; background: none !important; }
+
+  .burger {
+    display: none; flex-direction: column; gap: 5px; cursor: pointer;
+    padding: 5px;
+  }
+  .burger span { width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: 0.3s; }
+
+  /* SECTIONS */
+  section { position: relative; z-index: 1; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center;
+    padding: 120px 5% 80px;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(45,125,210,0.15);
+    border: 1px solid rgba(77,166,255,0.3);
+    color: var(--sky); padding: 6px 16px; border-radius: 50px;
+    font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em;
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-badge::before { content: '●'; font-size: 0.5rem; animation: pulse 2s infinite; }
+
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.6rem, 7vw, 5.5rem);
+    font-weight: 800; line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+
+  h1 span {
+    background: linear-gradient(135deg, var(--sky) 0%, var(--accent) 50%, var(--gold) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    color: var(--gray); max-width: 560px;
+    line-height: 1.7; margin-bottom: 44px;
+    font-weight: 300;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+
+  .hero-buttons {
+    display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--sky));
+    color: #fff; text-decoration: none;
+    padding: 14px 32px; border-radius: 12px;
+    font-weight: 500; font-size: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 8px 32px rgba(45,125,210,0.35);
+    border: none; cursor: pointer;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(45,125,210,0.5); }
+
+  .btn-ghost {
+    background: rgba(255,255,255,0.06);
+    color: var(--white); text-decoration: none;
+    padding: 14px 32px; border-radius: 12px;
+    font-weight: 400; font-size: 1rem;
+    border: 1px solid var(--border);
+    transition: background 0.2s;
+    cursor: pointer;
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.1); }
+
+  .hero-stats {
+    display: flex; gap: 48px; margin-top: 64px;
+    animation: fadeUp 0.7s 0.4s ease both;
+  }
+
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem; font-weight: 800;
+    background: linear-gradient(135deg, var(--sky), var(--white));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--gray); margin-top: 2px; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* HOW IT WORKS */
+  #how {
+    padding: 100px 5%;
+    background: rgba(255,255,255,0.02);
+    border-top: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--sky); font-weight: 600; margin-bottom: 14px;
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800; margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+
+  .section-desc { color: var(--gray); font-size: 1.05rem; max-width: 480px; line-height: 1.7; margin-bottom: 60px; }
+
+  .steps {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+  }
+
+  .step {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px; padding: 32px 28px;
+    position: relative; overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .step:hover { transform: translateY(-4px); border-color: rgba(77,166,255,0.4); }
+
+  .step::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--sky));
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .step:hover::before { opacity: 1; }
+
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 3rem; font-weight: 800;
+    color: rgba(77,166,255,0.1); line-height: 1;
+    margin-bottom: 20px;
+  }
+
+  .step-icon { font-size: 1.8rem; margin-bottom: 14px; }
+  .step h3 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+  .step p { color: var(--gray); font-size: 0.9rem; line-height: 1.6; }
+
+  /* CATEGORIES */
+  #categories { padding: 100px 5%; }
+
+  .cats {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px; margin-top: 48px;
+  }
+
+  .cat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px; padding: 28px 20px;
+    text-align: center; cursor: pointer;
+    transition: all 0.3s;
+  }
+  .cat:hover { transform: translateY(-4px); border-color: rgba(77,166,255,0.5); background: rgba(45,125,210,0.1); }
+
+  .cat-icon { font-size: 2rem; margin-bottom: 12px; }
+  .cat-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; }
+  .cat-sp { font-size: 0.78rem; color: var(--sky); }
+
+  /* LEADERBOARD */
+  #leaderboard { padding: 100px 5%; background: rgba(255,255,255,0.02); border-top: 1px solid var(--border); }
+
+  .leaderboard-wrap { margin-top: 48px; }
+
+  .lb-filters {
+    display: flex; gap: 10px; margin-bottom: 28px; flex-wrap: wrap;
+  }
+
+  .lb-filter {
+    background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+    color: var(--gray); padding: 8px 18px; border-radius: 8px;
+    cursor: pointer; font-size: 0.88rem; transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .lb-filter.active, .lb-filter:hover { background: rgba(45,125,210,0.2); border-color: var(--accent); color: var(--white); }
+
+  .lb-table { width: 100%; border-collapse: collapse; }
+
+  .lb-table thead tr {
+    border-bottom: 1px solid var(--border);
+  }
+  .lb-table th {
+    padding: 12px 16px; text-align: left;
+    font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--gray); font-weight: 500;
+  }
+
+  .lb-table tbody tr {
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.2s;
+  }
+  .lb-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+  .lb-table td { padding: 14px 16px; }
+
+  .rank { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; }
+  .rank.gold { color: #ffd700; }
+  .rank.silver { color: #c0c0c0; }
+  .rank.bronze { color: #cd7f32; }
+
+  .user-info { display: flex; align-items: center; gap: 12px; }
+
+  .avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--sky));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.9rem; flex-shrink: 0;
+  }
+
+  .user-name { font-weight: 500; font-size: 0.95rem; }
+  .user-uni { font-size: 0.78rem; color: var(--gray); }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px; border-radius: 6px;
+    font-size: 0.75rem; font-weight: 600;
+  }
+  .badge.expert { background: rgba(240,165,0,0.15); color: var(--gold); border: 1px solid rgba(240,165,0,0.3); }
+  .badge.gold-b { background: rgba(255,215,0,0.1); color: #ffd700; border: 1px solid rgba(255,215,0,0.25); }
+  .badge.silver-b { background: rgba(192,192,192,0.1); color: #c0c0c0; border: 1px solid rgba(192,192,192,0.25); }
+  .badge.bronze-b { background: rgba(205,127,50,0.1); color: #cd7f32; border: 1px solid rgba(205,127,50,0.25); }
+  .badge.starter { background: rgba(255,255,255,0.06); color: var(--gray); border: 1px solid var(--border); }
+
+  .score { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--sky); }
+
+  .lb-empty { text-align: center; padding: 60px; color: var(--gray); }
+  .lb-loading { text-align: center; padding: 60px; color: var(--gray); }
+
+  /* NEWS */
+  #news { padding: 100px 5%; }
+
+  .news-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px; margin-top: 48px;
+  }
+
+  .news-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px; overflow: hidden;
+    text-decoration: none; color: inherit;
+    transition: transform 0.3s, border-color 0.3s;
+    display: block;
+  }
+  .news-card:hover { transform: translateY(-4px); border-color: rgba(77,166,255,0.4); }
+
+  .news-cat {
+    display: inline-block;
+    padding: 4px 12px; border-radius: 6px;
+    font-size: 0.75rem; font-weight: 600;
+    background: rgba(45,125,210,0.2); color: var(--sky);
+    margin-bottom: 12px;
+  }
+
+  .news-body { padding: 28px; }
+  .news-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem; margin-bottom: 10px; line-height: 1.4; }
+  .news-excerpt { font-size: 0.88rem; color: var(--gray); line-height: 1.6; margin-bottom: 16px; }
+  .news-date { font-size: 0.78rem; color: rgba(138,154,176,0.6); }
+  .news-loading { text-align: center; padding: 60px; color: var(--gray); }
+
+  /* ABOUT */
+  #about { padding: 100px 5%; background: rgba(255,255,255,0.02); border-top: 1px solid var(--border); }
+
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+
+  .about-features { list-style: none; margin-top: 32px; display: flex; flex-direction: column; gap: 16px; }
+  .about-features li {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 18px 20px; border-radius: 14px;
+    background: var(--card); border: 1px solid var(--border);
+  }
+  .feat-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+  .feat-text strong { display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.95rem; }
+  .feat-text span { font-size: 0.85rem; color: var(--gray); line-height: 1.5; }
+
+  .about-visual {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+
+  .about-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 28px 20px; text-align: center;
+  }
+  .about-card-num {
+    font-family: 'Syne', sans-serif; font-size: 2.4rem; font-weight: 800;
+    background: linear-gradient(135deg, var(--sky), var(--accent));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .about-card-label { font-size: 0.8rem; color: var(--gray); margin-top: 6px; }
+
+  /* REGISTER */
+  #register { padding: 100px 5%; }
+
+  .register-wrap {
+    max-width: 600px; margin: 0 auto;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 24px; padding: 48px;
+  }
+
+  .register-wrap h2 { margin-bottom: 8px; }
+  .register-wrap .section-desc { margin-bottom: 36px; }
+
+  .form-group { margin-bottom: 20px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  label { display: block; font-size: 0.85rem; color: var(--gray); margin-bottom: 8px; font-weight: 400; }
+
+  input, select {
+    width: 100%; padding: 12px 16px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border); border-radius: 10px;
+    color: var(--white); font-size: 0.95rem;
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  input::placeholder { color: rgba(138,154,176,0.5); }
+  input:focus, select:focus { border-color: var(--accent); }
+  select option { background: var(--card); }
+
+  .skills-select {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;
+  }
+  .skill-tag {
+    padding: 6px 14px; border-radius: 8px;
+    border: 1px solid var(--border); background: rgba(255,255,255,0.04);
+    cursor: pointer; font-size: 0.85rem; transition: all 0.2s;
+    user-select: none;
+  }
+  .skill-tag.selected { background: rgba(45,125,210,0.25); border-color: var(--accent); color: var(--sky); }
+
+  .form-msg { padding: 12px 16px; border-radius: 10px; font-size: 0.9rem; margin-bottom: 16px; display: none; }
+  .form-msg.success { background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3); color: #4ade80; }
+  .form-msg.error { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: #f87171; }
+
+  .btn-full { width: 100%; padding: 14px; font-size: 1rem; margin-top: 8px; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 48px 5% 32px;
+    display: flex; flex-wrap: wrap; gap: 24px;
+    align-items: center; justify-content: space-between;
+  }
+
+  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; }
+  .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+  .footer-links a { color: var(--gray); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--white); }
+  .footer-copy { color: rgba(138,154,176,0.5); font-size: 0.8rem; }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; right: 0; background: rgba(13,27,42,0.98); padding: 20px; border-bottom: 1px solid var(--border); }
+    .nav-links.open { display: flex; }
+    .burger { display: flex; }
+    .hero-stats { gap: 28px; }
+    .about-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .register-wrap { padding: 28px 20px; }
+    .lb-table th:nth-child(3), .lb-table td:nth-child(3) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#">
+    <span class="logo-icon">⚡</span>
+    Skills Swap
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#how">Как работает</a></li>
+    <li><a href="#leaderboard">Рейтинг</a></li>
+    <li><a href="#news">Новости</a></li>
+    <li><a href="#about">О проекте</a></li>
+    <li><a href="#register" class="nav-cta">Регистрация</a></li>
+  </ul>
+  <div class="burger" onclick="document.getElementById('navLinks').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-badge">🇰🇬 Запущен в ОшТУ, Кыргызстан</div>
+  <h1>Обменивайся<br><span>навыками</span><br>со студентами</h1>
+  <p class="hero-sub">Skills Swap — платформа где студенты помогают друг другу. Напишешь код за немецкий. Сделаешь дизайн за физику. Всё честно — через Skills Points.</p>
+  <div class="hero-buttons">
+    <a href="#register" class="btn-primary">Начать бесплатно →</a>
+    <a href="#how" class="btn-ghost">Как это работает</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num" id="statUsers">0</div>
+      <div class="stat-label">студентов</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="statDeals">0</div>
+      <div class="stat-label">сделок</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="statListings">0</div>
+      <div class="stat-label">активных заявок</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section id="how">
+  <div class="section-label">Механика</div>
+  <h2>Как это работает</h2>
+  <p class="section-desc">Три шага — и ты уже в системе обмена навыками с другими студентами.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-icon">👤</div>
+      <h3>Создай профиль</h3>
+      <p>Укажи свои навыки — IT, дизайн, языки, учёба. Получи 50 стартовых SP при регистрации.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-icon">📋</div>
+      <h3>Публикуй заявки</h3>
+      <p>Предложи услугу (OFFER) или попроси помощь (REQUEST). Укажи цену в SP и дедлайн.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-icon">🤝</div>
+      <h3>Выполняй и расти</h3>
+      <p>Договоритесь, выполните задание, оставьте отзыв. SP начисляются автоматически.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-icon">🏆</div>
+      <h3>Получай бейджи</h3>
+      <p>Starter → Bronze → Silver → Gold → Expert. Чем выше рейтинг — тем больше привилегий.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section id="categories">
+  <div class="section-label">Что можно обменять</div>
+  <h2>Категории услуг</h2>
+  <div class="cats">
+    <div class="cat"><div class="cat-icon">💻</div><div class="cat-name">IT и код</div><div class="cat-sp">50–200 SP</div></div>
+    <div class="cat"><div class="cat-icon">🎨</div><div class="cat-name">Дизайн</div><div class="cat-sp">30–150 SP</div></div>
+    <div class="cat"><div class="cat-icon">📚</div><div class="cat-name">Учёба</div><div class="cat-sp">20–100 SP</div></div>
+    <div class="cat"><div class="cat-icon">🗣️</div><div class="cat-name">Языки</div><div class="cat-sp">20–80 SP</div></div>
+    <div class="cat"><div class="cat-icon">🎬</div><div class="cat-name">Медиа</div><div class="cat-sp">30–120 SP</div></div>
+    <div class="cat"><div class="cat-icon">🔧</div><div class="cat-name">Техника</div><div class="cat-sp">40–160 SP</div></div>
+  </div>
+</section>
+
+<!-- LEADERBOARD -->
+<section id="leaderboard">
+  <div class="section-label">Лидеры платформы</div>
+  <h2>Рейтинг студентов</h2>
+  <p class="section-desc">Топ студентов по Skills Score — реальные данные из системы.</p>
+  <div class="leaderboard-wrap">
+    <div class="lb-filters">
+      <button class="lb-filter active" onclick="filterLB(this,'all')">Все</button>
+      <button class="lb-filter" onclick="filterLB(this,'ОшТУ')">ОшТУ</button>
+      <button class="lb-filter" onclick="filterLB(this,'КТУ Манас')">КТУ Манас</button>
+      <button class="lb-filter" onclick="filterLB(this,'КГТУ')">КГТУ</button>
+    </div>
+    <div id="lbContent">
+      <div class="lb-loading">Загружаем рейтинг...</div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section id="news">
+  <div class="section-label">Последнее</div>
+  <h2>Новости платформы</h2>
+  <p class="section-desc">Обновления, истории успеха и мероприятия.</p>
+  <div class="news-grid" id="newsGrid">
+    <div class="news-loading">Загружаем новости...</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div>
+      <div class="section-label">О проекте</div>
+      <h2>Почему Skills Swap?</h2>
+      <p class="section-desc">Мы создали платформу где знания — это валюта. Студент ОшТУ, который умеет программировать, помогает тому, кто нужна подготовка к экзамену. И оба выигрывают.</p>
+      <ul class="about-features">
+        <li>
+          <div class="feat-icon">🎯</div>
+          <div class="feat-text">
+            <strong>Реальное портфолио</strong>
+            <span>Каждая выполненная работа попадает в твоё публичное портфолио. Работодатели видят реальные проекты.</span>
+          </div>
+        </li>
+        <li>
+          <div class="feat-icon">🔒</div>
+          <div class="feat-text">
+            <strong>Безопасные сделки</strong>
+            <span>Система защиты сделок, рейтинг честности и механизм жалоб — всё контролируется автоматически.</span>
+          </div>
+        </li>
+        <li>
+          <div class="feat-icon">🚀</div>
+          <div class="feat-text">
+            <strong>Масштабируемся по КР</strong>
+            <span>Начали с ОшТУ, следующие — КТУ Манас, КГТУ, Ала-Тоо. Цель — все вузы Кыргызстана к 2028.</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="about-visual">
+      <div class="about-card">
+        <div class="about-card-num" id="aUsers">0</div>
+        <div class="about-card-label">студентов</div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-num" id="aDeals">0</div>
+        <div class="about-card-label">сделок</div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-num">6</div>
+        <div class="about-card-label">категорий</div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-num">1</div>
+        <div class="about-card-label">вуз (пока)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REGISTER -->
+<section id="register">
+  <div class="register-wrap">
+    <div class="section-label">Присоединиться</div>
+    <h2>Регистрация</h2>
+    <p class="section-desc">Создай аккаунт и получи 50 стартовых SP. Бесплатно.</p>
+
+    <div class="form-msg" id="formMsg"></div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Имя</label>
+        <input type="text" id="fname" placeholder="Азиз">
+      </div>
+      <div class="form-group">
+        <label>Фамилия</label>
+        <input type="text" id="lname" placeholder="Уметов">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="email" placeholder="your@email.com">
+    </div>
+
+    <div class="form-group">
+      <label>Пароль</label>
+      <input type="password" id="password" placeholder="Минимум 6 символов">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Вуз</label>
+        <select id="university">
+          <option value="">Выбери вуз</option>
+          <option>ОшТУ</option>
+          <option>КТУ Манас</option>
+          <option>КГТУ</option>
+          <option>Ала-Тоо</option>
+          <option>ОшГУ</option>
+          <option>АУЦА</option>
+          <option>Другой</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Курс</label>
+        <select id="year">
+          <option value="">Курс</option>
+          <option value="1">1 курс</option>
+          <option value="2">2 курс</option>
+          <option value="3">3 курс</option>
+          <option value="4">4 курс</option>
+          <option value="5">5 курс</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Факультет</label>
+      <input type="text" id="faculty" placeholder="Информационные технологии">
+    </div>
+
+    <div class="form-group">
+      <label>Выбери навыки (минимум 2)</label>
+      <div class="skills-select" id="skillsSelect">
+        <div class="skill-tag" onclick="toggleSkill(this,'it')">💻 IT / Код</div>
+        <div class="skill-tag" onclick="toggleSkill(this,'design')">🎨 Дизайн</div>
+        <div class="skill-tag" onclick="toggleSkill(this,'study')">📚 Учёба</div>
+        <div class="skill-tag" onclick="toggleSkill(this,'languages')">🗣️ Языки</div>
+        <div class="skill-tag" onclick="toggleSkill(this,'media')">🎬 Медиа</div>
+        <div class="skill-tag" onclick="toggleSkill(this,'tech')">🔧 Техника</div>
+        <div class="skill-tag" onclick="toggleSkill(this,'math')">📐 Математика</div>
+        <div class="skill-tag" onclick="toggleSkill(this,'writing')">✍️ Тексты</div>
+      </div>
+    </div>
+
+    <button class="btn-primary btn-full" onclick="register()">Создать аккаунт →</button>
+    <p style="text-align:center;margin-top:16px;font-size:0.82rem;color:var(--gray)">
+      Уже есть аккаунт? Открой приложение Skills Swap
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">⚡ Skills Swap</div>
+  <div class="footer-links">
+    <a href="#how">Как работает</a>
+    <a href="#leaderboard">Рейтинг</a>
+    <a href="#news">Новости</a>
+    <a href="#about">О проекте</a>
+    <a href="https://t.me/" target="_blank">Telegram</a>
+  </div>
+  <div class="footer-copy">© 2026 Skills Swap · ОшТУ, Кыргызстан</div>
+</footer>
+
+<script>
+  // ─── CONFIG ───────────────────────────────────────────────────────
+  const SUPABASE_URL = 'https://dktzlzopzjcxbuxsptyf.supabase.co';
+  const SUPABASE_ANON = 'sb_publishable_JpRMnzyk7z3HizjRcPmEvQ_8ZQeOHdN'; // ← замени на свой anon key
+
+  async function supa(path, opts = {}) {
+    const res = await fetch(SUPABASE_URL + path, {
+      headers: {
+        'apikey': SUPABASE_ANON,
+        'Authorization': 'Bearer ' + SUPABASE_ANON,
+        'Content-Type': 'application/json',
+        ...opts.headers
+      }, ...opts
+    });
+    return res;
+  }
+
+  // ─── STATS ────────────────────────────────────────────────────────
+  async function loadStats() {
+    try {
+      const r = await supa('/rest/v1/rpc/get_stats', { method: 'POST', body: '{}' });
+      if (!r.ok) return;
+      const d = await r.json();
+      animateNum('statUsers', d.total_users || 0);
+      animateNum('statDeals', d.completed_deals || 0);
+      animateNum('statListings', d.active_listings || 0);
+      animateNum('aUsers', d.total_users || 0);
+      animateNum('aDeals', d.completed_deals || 0);
+    } catch(e) {
+      // silently fail — demo numbers show
+      animateNum('statUsers', 1); animateNum('statDeals', 0); animateNum('statListings', 0);
+    }
+  }
+
+  function animateNum(id, target) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    let cur = 0; const step = Math.max(1, Math.floor(target / 40));
+    const t = setInterval(() => {
+      cur = Math.min(cur + step, target);
+      el.textContent = cur;
+      if (cur >= target) clearInterval(t);
+    }, 30);
+  }
+
+  // ─── LEADERBOARD ─────────────────────────────────────────────────
+  let lbData = [];
+  let lbFilter = 'all';
+
+  async function loadLeaderboard() {
+    try {
+      const r = await supa('/rest/v1/rpc/get_leaderboard', {
+        method: 'POST',
+        body: JSON.stringify({ p_limit: 20, p_university: null })
+      });
+      if (!r.ok) throw new Error();
+      lbData = await r.json();
+      renderLB();
+    } catch(e) {
+      renderLBDemo();
+    }
+  }
+
+  function filterLB(btn, uni) {
+    document.querySelectorAll('.lb-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    lbFilter = uni;
+    renderLB();
+  }
+
+  function renderLB() {
+    const data = lbFilter === 'all' ? lbData : lbData.filter(u => u.university === lbFilter);
+    if (!data.length) {
+      document.getElementById('lbContent').innerHTML = '<div class="lb-empty">Нет данных для этого фильтра</div>';
+      return;
+    }
+    renderLBTable(data);
+  }
+
+  function renderLBDemo() {
+    lbData = [
+      { rank:1, full_name:'Намазбек М.', university:'ОшТУ', badge_level:'expert', skills_score:980, deals_count:24, avg_rating:4.9 },
+      { rank:2, full_name:'Айгуль К.',   university:'ОшТУ', badge_level:'gold',   skills_score:720, deals_count:18, avg_rating:4.7 },
+      { rank:3, full_name:'Азамат Б.',   university:'ОшТУ', badge_level:'silver', skills_score:430, deals_count:11, avg_rating:4.5 },
+      { rank:4, full_name:'Зарина Т.',   university:'ОшТУ', badge_level:'bronze', skills_score:210, deals_count:6,  avg_rating:4.3 },
+      { rank:5, full_name:'Улан Д.',     university:'ОшТУ', badge_level:'starter',skills_score:80,  deals_count:2,  avg_rating:4.0 },
+    ];
+    renderLB();
+  }
+
+  function renderLBTable(data) {
+    const badgeMap = {
+      expert:  ['expert', '💎 Expert'],
+      gold:    ['gold-b', '🥇 Gold'],
+      silver:  ['silver-b','⚪ Silver'],
+      bronze:  ['bronze-b','🟤 Bronze'],
+      starter: ['starter', '⬜ Starter'],
+    };
+    const rankClass = i => i===1?'gold':i===2?'silver':i===3?'bronze':'';
+
+    document.getElementById('lbContent').innerHTML = `
+      <table class="lb-table">
+        <thead><tr>
+          <th>#</th><th>Студент</th><th>Вуз</th><th>Бейдж</th><th>Score</th><th>Сделок</th>
+        </tr></thead>
+        <tbody>
+          ${data.map((u,i) => {
+            const [bc, bl] = badgeMap[u.badge_level] || badgeMap.starter;
+            const rank = u.rank || (i+1);
+            return `<tr>
+              <td><span class="rank ${rankClass(rank)}">${rank}</span></td>
+              <td>
+                <div class="user-info">
+                  <div class="avatar">${(u.full_name||'?')[0]}</div>
+                  <div>
+                    <div class="user-name">${u.full_name||'—'}</div>
+                    <div class="user-uni">${u.university||''}</div>
+                  </div>
+                </div>
+              </td>
+              <td style="color:var(--gray);font-size:0.88rem">${u.university||'—'}</td>
+              <td><span class="badge ${bc}">${bl}</span></td>
+              <td><span class="score">${Math.round(u.skills_score||0)}</span></td>
+              <td style="color:var(--gray)">${u.deals_count||0}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>`;
+  }
+
+  // ─── NEWS ─────────────────────────────────────────────────────────
+  async function loadNews() {
+    try {
+      const r = await fetch(`${SUPABASE_URL}/rest/v1/rpc/get_blog_posts`, {
+        method: 'POST', body: '{}',
+        headers: { 'apikey': SUPABASE_ANON, 'Content-Type': 'application/json' }
+      });
+      if (!r.ok) throw new Error();
+      const posts = await r.json();
+      renderNews(posts);
+    } catch(e) {
+      renderDemoNews();
+    }
+  }
+
+  function renderNews(posts) {
+    if (!posts || !posts.length) { renderDemoNews(); return; }
+    document.getElementById('newsGrid').innerHTML = posts.slice(0,3).map(p => `
+      <a class="news-card" href="${p.url||'#'}" target="_blank">
+        <div class="news-body">
+          <span class="news-cat">${p.category||'Новость'}</span>
+          <div class="news-title">${p.title}</div>
+          <div class="news-excerpt">${p.excerpt||''}</div>
+          <div class="news-date">${formatDate(p.date)}</div>
+        </div>
+      </a>`).join('');
+  }
+
+  function renderDemoNews() {
+    const posts = [
+      { cat:'Обновления платформы', title:'Skills Swap запущен в ОшТУ!', excerpt:'Рады объявить об официальном запуске платформы Skills Swap в Ошском технологическом университете. Теперь студенты могут обмениваться навыками и получать Skills Points!', date:'2026-03-28' },
+      { cat:'Истории успеха', title:'Как я нашёл помощника для курсовой через Skills Swap', excerpt:'Студент 3-го курса рассказывает, как нашёл программиста для своего проекта через платформу и обменял это на помощь в подготовке к экзамену по немецкому.', date:'2026-03-25' },
+      { cat:'Мероприятия', title:'Skills Swap на хакатоне в Ала-Тоо', excerpt:'Команда Skills Swap приняла участие в AI Hackathon в Ала-Тоо Интернэшнл Юниверсите. Рассказываем, что получилось и что планируется дальше.', date:'2026-03-20' },
+    ];
+    document.getElementById('newsGrid').innerHTML = posts.map(p => `
+      <a class="news-card" href="#">
+        <div class="news-body">
+          <span class="news-cat">${p.cat}</span>
+          <div class="news-title">${p.title}</div>
+          <div class="news-excerpt">${p.excerpt}</div>
+          <div class="news-date">${formatDate(p.date)}</div>
+        </div>
+      </a>`).join('');
+  }
+
+  function formatDate(d) {
+    if (!d) return '';
+    return new Date(d).toLocaleDateString('ru-RU', { day:'numeric', month:'long', year:'numeric' });
+  }
+
+  // ─── SKILLS ───────────────────────────────────────────────────────
+  const selectedSkills = new Set();
+  function toggleSkill(el, val) {
+    if (selectedSkills.has(val)) { selectedSkills.delete(val); el.classList.remove('selected'); }
+    else { selectedSkills.add(val); el.classList.add('selected'); }
+  }
+
+  // ─── REGISTER ─────────────────────────────────────────────────────
+  async function register() {
+    const fname = document.getElementById('fname').value.trim();
+    const lname = document.getElementById('lname').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const university = document.getElementById('university').value;
+    const year = document.getElementById('year').value;
+    const faculty = document.getElementById('faculty').value.trim();
+    const msg = document.getElementById('formMsg');
+
+    msg.style.display = 'none';
+
+    if (!fname || !lname || !email || !password || !university || !year) {
+      showMsg('error', 'Заполни все обязательные поля'); return;
+    }
+    if (password.length < 6) { showMsg('error', 'Пароль минимум 6 символов'); return; }
+    if (selectedSkills.size < 2) { showMsg('error', 'Выбери минимум 2 навыка'); return; }
+
+    const btn = document.querySelector('.btn-full');
+    btn.textContent = 'Создаём аккаунт...'; btn.disabled = true;
+
+    try {
+      // 1. Sign up via Supabase Auth
+      const authRes = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
+        method: 'POST',
+        headers: { 'apikey': SUPABASE_ANON, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const authData = await authRes.json();
+
+      if (authData.error) { showMsg('error', authData.error.message || 'Ошибка регистрации'); btn.textContent = 'Создать аккаунт →'; btn.disabled = false; return; }
+
+      const userId = authData.user?.id;
+      if (!userId) { showMsg('error', 'Ошибка — попробуй ещё раз'); btn.textContent = 'Создать аккаунт →'; btn.disabled = false; return; }
+
+      // 2. Create user profile
+      const token = authData.access_token;
+      await fetch(`${SUPABASE_URL}/rest/v1/users`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANON,
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          id: userId,
+          full_name: fname + ' ' + lname,
+          email,
+          university,
+          faculty: faculty || null,
+          year: parseInt(year),
+          skills: Array.from(selectedSkills),
+          sp_balance: 50
+        })
+      });
+
+      showMsg('success', '🎉 Аккаунт создан! Проверь email для подтверждения. Стартовые 50 SP уже на счету!');
+      btn.textContent = 'Аккаунт создан ✓';
+
+    } catch(e) {
+      showMsg('error', 'Ошибка сети. Попробуй ещё раз.');
+      btn.textContent = 'Создать аккаунт →'; btn.disabled = false;
+    }
+  }
+
+  function showMsg(type, text) {
+    const el = document.getElementById('formMsg');
+    el.className = 'form-msg ' + type;
+    el.textContent = text;
+    el.style.display = 'block';
+  }
+
+  // ─── INIT ─────────────────────────────────────────────────────────
+  loadStats();
+  loadLeaderboard();
+  loadNews();
+</script>
+</body>
+  </html>
