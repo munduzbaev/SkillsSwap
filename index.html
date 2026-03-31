@@ -5,1005 +5,557 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Skills Swap — Обменивайся навыками</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --navy: #0d1b2a;
-    --blue: #1a3a5c;
-    --accent: #2d7dd2;
-    --sky: #4da6ff;
-    --gold: #f0a500;
-    --white: #f5f7fa;
-    --gray: #8a9ab0;
-    --card: #111e2e;
-    --border: rgba(77,166,255,0.15);
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--navy);
-    color: var(--white);
-    overflow-x: hidden;
-  }
-
-  /* BACKGROUND */
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(45,125,210,0.12) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 50% at 80% 80%, rgba(13,27,42,0.8) 0%, transparent 70%);
-    pointer-events: none; z-index: 0;
-  }
-
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 18px 5%;
-    background: rgba(13,27,42,0.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800; font-size: 1.4rem;
-    color: var(--white); text-decoration: none;
-    display: flex; align-items: center; gap: 10px;
-  }
-
-  .logo-icon {
-    width: 34px; height: 34px;
-    background: linear-gradient(135deg, var(--accent), var(--sky));
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1rem;
-  }
-
-  .nav-links {
-    display: flex; align-items: center; gap: 8px;
-    list-style: none;
-  }
-
-  .nav-links a {
-    color: var(--gray); text-decoration: none;
-    font-size: 0.9rem; padding: 8px 14px;
-    border-radius: 8px; transition: all 0.2s;
-    font-weight: 400;
-  }
-
-  .nav-links a:hover { color: var(--white); background: rgba(255,255,255,0.06); }
-
-  .nav-cta {
-    background: linear-gradient(135deg, var(--accent), var(--sky));
-    color: var(--white) !important;
-    padding: 9px 20px !important;
-    border-radius: 10px !important;
-    font-weight: 500 !important;
-    transition: opacity 0.2s !important;
-  }
-  .nav-cta:hover { opacity: 0.88; background: none !important; }
-
-  .burger {
-    display: none; flex-direction: column; gap: 5px; cursor: pointer;
-    padding: 5px;
-  }
-  .burger span { width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: 0.3s; }
-
-  /* SECTIONS */
-  section { position: relative; z-index: 1; }
-
-  /* HERO */
-  #hero {
-    min-height: 100vh;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    text-align: center;
-    padding: 120px 5% 80px;
-  }
-
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(45,125,210,0.15);
-    border: 1px solid rgba(77,166,255,0.3);
-    color: var(--sky); padding: 6px 16px; border-radius: 50px;
-    font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em;
-    margin-bottom: 28px;
-    animation: fadeUp 0.6s ease both;
-  }
-
-  .hero-badge::before { content: '●'; font-size: 0.5rem; animation: pulse 2s infinite; }
-
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-  h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(2.6rem, 7vw, 5.5rem);
-    font-weight: 800; line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin-bottom: 24px;
-    animation: fadeUp 0.7s 0.1s ease both;
-  }
-
-  h1 span {
-    background: linear-gradient(135deg, var(--sky) 0%, var(--accent) 50%, var(--gold) 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .hero-sub {
-    font-size: clamp(1rem, 2.5vw, 1.2rem);
-    color: var(--gray); max-width: 560px;
-    line-height: 1.7; margin-bottom: 44px;
-    font-weight: 300;
-    animation: fadeUp 0.7s 0.2s ease both;
-  }
-
-  .hero-buttons {
-    display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;
-    animation: fadeUp 0.7s 0.3s ease both;
-  }
-
-  .btn-primary {
-    background: linear-gradient(135deg, var(--accent), var(--sky));
-    color: #fff; text-decoration: none;
-    padding: 14px 32px; border-radius: 12px;
-    font-weight: 500; font-size: 1rem;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 8px 32px rgba(45,125,210,0.35);
-    border: none; cursor: pointer;
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(45,125,210,0.5); }
-
-  .btn-ghost {
-    background: rgba(255,255,255,0.06);
-    color: var(--white); text-decoration: none;
-    padding: 14px 32px; border-radius: 12px;
-    font-weight: 400; font-size: 1rem;
-    border: 1px solid var(--border);
-    transition: background 0.2s;
-    cursor: pointer;
-  }
-  .btn-ghost:hover { background: rgba(255,255,255,0.1); }
-
-  .hero-stats {
-    display: flex; gap: 48px; margin-top: 64px;
-    animation: fadeUp 0.7s 0.4s ease both;
-  }
-
-  .stat { text-align: center; }
-  .stat-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 2rem; font-weight: 800;
-    background: linear-gradient(135deg, var(--sky), var(--white));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .stat-label { font-size: 0.8rem; color: var(--gray); margin-top: 2px; }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* HOW IT WORKS */
-  #how {
-    padding: 100px 5%;
-    background: rgba(255,255,255,0.02);
-    border-top: 1px solid var(--border);
-  }
-
-  .section-label {
-    font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--sky); font-weight: 600; margin-bottom: 14px;
-  }
-
-  h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    font-weight: 800; margin-bottom: 16px;
-    letter-spacing: -0.02em;
-  }
-
-  .section-desc { color: var(--gray); font-size: 1.05rem; max-width: 480px; line-height: 1.7; margin-bottom: 60px; }
-
-  .steps {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 24px;
-  }
-
-  .step {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px; padding: 32px 28px;
-    position: relative; overflow: hidden;
-    transition: transform 0.3s, border-color 0.3s;
-  }
-  .step:hover { transform: translateY(-4px); border-color: rgba(77,166,255,0.4); }
-
-  .step::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    background: linear-gradient(90deg, var(--accent), var(--sky));
-    opacity: 0; transition: opacity 0.3s;
-  }
-  .step:hover::before { opacity: 1; }
-
-  .step-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 3rem; font-weight: 800;
-    color: rgba(77,166,255,0.1); line-height: 1;
-    margin-bottom: 20px;
-  }
-
-  .step-icon { font-size: 1.8rem; margin-bottom: 14px; }
-  .step h3 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
-  .step p { color: var(--gray); font-size: 0.9rem; line-height: 1.6; }
-
-  /* CATEGORIES */
-  #categories { padding: 100px 5%; }
-
-  .cats {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 16px; margin-top: 48px;
-  }
-
-  .cat {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px; padding: 28px 20px;
-    text-align: center; cursor: pointer;
-    transition: all 0.3s;
-  }
-  .cat:hover { transform: translateY(-4px); border-color: rgba(77,166,255,0.5); background: rgba(45,125,210,0.1); }
-
-  .cat-icon { font-size: 2rem; margin-bottom: 12px; }
-  .cat-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; }
-  .cat-sp { font-size: 0.78rem; color: var(--sky); }
-
-  /* LEADERBOARD */
-  #leaderboard { padding: 100px 5%; background: rgba(255,255,255,0.02); border-top: 1px solid var(--border); }
-
-  .leaderboard-wrap { margin-top: 48px; }
-
-  .lb-filters {
-    display: flex; gap: 10px; margin-bottom: 28px; flex-wrap: wrap;
-  }
-
-  .lb-filter {
-    background: rgba(255,255,255,0.06); border: 1px solid var(--border);
-    color: var(--gray); padding: 8px 18px; border-radius: 8px;
-    cursor: pointer; font-size: 0.88rem; transition: all 0.2s;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .lb-filter.active, .lb-filter:hover { background: rgba(45,125,210,0.2); border-color: var(--accent); color: var(--white); }
-
-  .lb-table { width: 100%; border-collapse: collapse; }
-
-  .lb-table thead tr {
-    border-bottom: 1px solid var(--border);
-  }
-  .lb-table th {
-    padding: 12px 16px; text-align: left;
-    font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--gray); font-weight: 500;
-  }
-
-  .lb-table tbody tr {
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    transition: background 0.2s;
-  }
-  .lb-table tbody tr:hover { background: rgba(255,255,255,0.03); }
-
-  .lb-table td { padding: 14px 16px; }
-
-  .rank { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; }
-  .rank.gold { color: #ffd700; }
-  .rank.silver { color: #c0c0c0; }
-  .rank.bronze { color: #cd7f32; }
-
-  .user-info { display: flex; align-items: center; gap: 12px; }
-
-  .avatar {
-    width: 38px; height: 38px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), var(--sky));
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 0.9rem; flex-shrink: 0;
-  }
-
-  .user-name { font-weight: 500; font-size: 0.95rem; }
-  .user-uni { font-size: 0.78rem; color: var(--gray); }
-
-  .badge {
-    display: inline-flex; align-items: center; gap: 5px;
-    padding: 4px 10px; border-radius: 6px;
-    font-size: 0.75rem; font-weight: 600;
-  }
-  .badge.expert { background: rgba(240,165,0,0.15); color: var(--gold); border: 1px solid rgba(240,165,0,0.3); }
-  .badge.gold-b { background: rgba(255,215,0,0.1); color: #ffd700; border: 1px solid rgba(255,215,0,0.25); }
-  .badge.silver-b { background: rgba(192,192,192,0.1); color: #c0c0c0; border: 1px solid rgba(192,192,192,0.25); }
-  .badge.bronze-b { background: rgba(205,127,50,0.1); color: #cd7f32; border: 1px solid rgba(205,127,50,0.25); }
-  .badge.starter { background: rgba(255,255,255,0.06); color: var(--gray); border: 1px solid var(--border); }
-
-  .score { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--sky); }
-
-  .lb-empty { text-align: center; padding: 60px; color: var(--gray); }
-  .lb-loading { text-align: center; padding: 60px; color: var(--gray); }
-
-  /* NEWS */
-  #news { padding: 100px 5%; }
-
-  .news-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px; margin-top: 48px;
-  }
-
-  .news-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px; overflow: hidden;
-    text-decoration: none; color: inherit;
-    transition: transform 0.3s, border-color 0.3s;
-    display: block;
-  }
-  .news-card:hover { transform: translateY(-4px); border-color: rgba(77,166,255,0.4); }
-
-  .news-cat {
-    display: inline-block;
-    padding: 4px 12px; border-radius: 6px;
-    font-size: 0.75rem; font-weight: 600;
-    background: rgba(45,125,210,0.2); color: var(--sky);
-    margin-bottom: 12px;
-  }
-
-  .news-body { padding: 28px; }
-  .news-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem; margin-bottom: 10px; line-height: 1.4; }
-  .news-excerpt { font-size: 0.88rem; color: var(--gray); line-height: 1.6; margin-bottom: 16px; }
-  .news-date { font-size: 0.78rem; color: rgba(138,154,176,0.6); }
-  .news-loading { text-align: center; padding: 60px; color: var(--gray); }
-
-  /* ABOUT */
-  #about { padding: 100px 5%; background: rgba(255,255,255,0.02); border-top: 1px solid var(--border); }
-
-  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-
-  .about-features { list-style: none; margin-top: 32px; display: flex; flex-direction: column; gap: 16px; }
-  .about-features li {
-    display: flex; align-items: flex-start; gap: 14px;
-    padding: 18px 20px; border-radius: 14px;
-    background: var(--card); border: 1px solid var(--border);
-  }
-  .feat-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
-  .feat-text strong { display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.95rem; }
-  .feat-text span { font-size: 0.85rem; color: var(--gray); line-height: 1.5; }
-
-  .about-visual {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-  }
-
-  .about-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 16px; padding: 28px 20px; text-align: center;
-  }
-  .about-card-num {
-    font-family: 'Syne', sans-serif; font-size: 2.4rem; font-weight: 800;
-    background: linear-gradient(135deg, var(--sky), var(--accent));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .about-card-label { font-size: 0.8rem; color: var(--gray); margin-top: 6px; }
-
-  /* REGISTER */
-  #register { padding: 100px 5%; }
-
-  .register-wrap {
-    max-width: 600px; margin: 0 auto;
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 24px; padding: 48px;
-  }
-
-  .register-wrap h2 { margin-bottom: 8px; }
-  .register-wrap .section-desc { margin-bottom: 36px; }
-
-  .form-group { margin-bottom: 20px; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-
-  label { display: block; font-size: 0.85rem; color: var(--gray); margin-bottom: 8px; font-weight: 400; }
-
-  input, select {
-    width: 100%; padding: 12px 16px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border); border-radius: 10px;
-    color: var(--white); font-size: 0.95rem;
-    font-family: 'DM Sans', sans-serif;
-    transition: border-color 0.2s;
-    outline: none;
-  }
-  input::placeholder { color: rgba(138,154,176,0.5); }
-  input:focus, select:focus { border-color: var(--accent); }
-  select option { background: var(--card); }
-
-  .skills-select {
-    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;
-  }
-  .skill-tag {
-    padding: 6px 14px; border-radius: 8px;
-    border: 1px solid var(--border); background: rgba(255,255,255,0.04);
-    cursor: pointer; font-size: 0.85rem; transition: all 0.2s;
-    user-select: none;
-  }
-  .skill-tag.selected { background: rgba(45,125,210,0.25); border-color: var(--accent); color: var(--sky); }
-
-  .form-msg { padding: 12px 16px; border-radius: 10px; font-size: 0.9rem; margin-bottom: 16px; display: none; }
-  .form-msg.success { background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3); color: #4ade80; }
-  .form-msg.error { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: #f87171; }
-
-  .btn-full { width: 100%; padding: 14px; font-size: 1rem; margin-top: 8px; }
-
-  /* FOOTER */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 48px 5% 32px;
-    display: flex; flex-wrap: wrap; gap: 24px;
-    align-items: center; justify-content: space-between;
-  }
-
-  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; }
-  .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
-  .footer-links a { color: var(--gray); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
-  .footer-links a:hover { color: var(--white); }
-  .footer-copy { color: rgba(138,154,176,0.5); font-size: 0.8rem; }
-
-  /* MOBILE */
-  @media (max-width: 768px) {
-    .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; right: 0; background: rgba(13,27,42,0.98); padding: 20px; border-bottom: 1px solid var(--border); }
-    .nav-links.open { display: flex; }
-    .burger { display: flex; }
-    .hero-stats { gap: 28px; }
-    .about-grid { grid-template-columns: 1fr; }
-    .form-row { grid-template-columns: 1fr; }
-    .register-wrap { padding: 28px 20px; }
-    .lb-table th:nth-child(3), .lb-table td:nth-child(3) { display: none; }
-  }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+::selection{background:rgba(255,255,255,0.25);color:#fff}
+body{font-family:'Barlow',sans-serif;font-weight:300;background:#02040A;color:#fff;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* LIQUID GLASS */
+.lg{background:rgba(255,255,255,0.015);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:inset 0 1px 1px rgba(255,255,255,0.1),0 4px 24px rgba(0,0,0,0.2);position:relative;overflow:hidden;transition:all 0.4s cubic-bezier(0.16,1,0.3,1)}
+.lg::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(180deg,rgba(255,255,255,0.28) 0%,rgba(255,255,255,0.05) 20%,transparent 40%,transparent 60%,rgba(255,255,255,0.05) 80%,rgba(255,255,255,0.18) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.lgs{background:rgba(255,255,255,0.02);backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);box-shadow:0 8px 32px rgba(0,0,0,0.35),inset 0 1px 1px rgba(255,255,255,0.18);position:relative;overflow:hidden;transition:all 0.4s cubic-bezier(0.16,1,0.3,1)}
+.lgs::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.2px;background:linear-gradient(180deg,rgba(255,255,255,0.55) 0%,rgba(255,255,255,0.12) 20%,transparent 40%,transparent 60%,rgba(255,255,255,0.12) 80%,rgba(255,255,255,0.38) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+
+/* ANIMATIONS */
+@keyframes blurUp{from{filter:blur(14px);opacity:0;transform:translateY(36px)}to{filter:blur(0);opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes lineGrow{from{height:0}to{height:80px}}
+@keyframes floatOrb{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(12px,-16px) scale(1.06)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(77,166,255,0.55)}60%{box-shadow:0 0 0 12px rgba(77,166,255,0)}}
+@keyframes starTwinkle{0%,100%{opacity:0.4}50%{opacity:1}}
+
+.reveal{opacity:0;transform:translateY(28px);filter:blur(6px);transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1),transform 0.85s cubic-bezier(0.16,1,0.3,1),filter 0.85s cubic-bezier(0.16,1,0.3,1)}
+.reveal.in{opacity:1;transform:none;filter:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.34s}.d5{transition-delay:.44s}
+
+/* NAV */
+nav{position:fixed;top:22px;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 5%;pointer-events:none}
+.nlogo{pointer-events:all;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.25rem;text-decoration:none;cursor:pointer;flex-shrink:0}
+.npill{pointer-events:all;display:flex;align-items:center;gap:4px;padding:7px 8px;border-radius:50px}
+.npill a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:0.82rem;font-weight:400;padding:7px 13px;border-radius:40px;transition:all 0.25s;letter-spacing:0.02em}
+.npill a:hover{color:#fff;background:rgba(255,255,255,0.08)}
+.ncta{background:#fff!important;color:#02040A!important;padding:8px 18px!important;border-radius:40px!important;font-weight:500!important;font-size:0.82rem!important;display:inline-flex!important;align-items:center!important;gap:5px!important}
+.ncta:hover{opacity:0.87!important;background:#fff!important}
+.burger{display:none;pointer-events:all;flex-direction:column;gap:5px;cursor:pointer;padding:10px 12px;background:rgba(255,255,255,0.06);border-radius:12px;border:1px solid rgba(255,255,255,0.08)}
+.burger span{width:20px;height:1.5px;background:#fff;border-radius:2px;display:block}
+.mnav{display:none;position:fixed;top:82px;left:4%;right:4%;border-radius:22px;padding:18px;z-index:199;flex-direction:column;gap:3px}
+.mnav.open{display:flex}
+.mnav a{color:rgba(255,255,255,0.65);text-decoration:none;padding:11px 16px;border-radius:12px;font-size:0.9rem;transition:all 0.2s}
+.mnav a:hover{background:rgba(255,255,255,0.07);color:#fff}
+.nlinks{display:flex;gap:2px}
+@media(max-width:700px){.nlinks{display:none}.burger{display:flex}}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:130px 6% 90px;position:relative;overflow:hidden}
+.hbg{position:absolute;inset:0;background:radial-gradient(ellipse 75% 55% at 50% 30%,rgba(26,58,140,0.22) 0%,transparent 65%),radial-gradient(ellipse 100% 50% at 50% 100%,#02040A 0%,transparent 55%);z-index:0}
+.stars{position:absolute;inset:0;z-index:0}
+.star{position:absolute;border-radius:50%;background:#fff;animation:starTwinkle 3s ease-in-out infinite}
+.hc{position:relative;z-index:1;max-width:840px}
+.hbadge{display:inline-flex;align-items:center;gap:9px;padding:7px 20px;border-radius:50px;font-size:0.76rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:34px;animation:blurUp 0.9s cubic-bezier(0.16,1,0.3,1) both}
+.hbadge::before{content:'●';color:#4da6ff;font-size:0.46rem;animation:pulse 2.5s infinite}
+h1{font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(2.8rem,7.5vw,6rem);line-height:1.06;letter-spacing:-0.02em;margin-bottom:26px;text-wrap:balance}
+.w{display:inline-block;animation:blurUp 1s cubic-bezier(0.16,1,0.3,1) both}
+.w0{animation-delay:0.04s}.w1{animation-delay:0.09s}.w2{animation-delay:0.14s;color:#4da6ff}.w3{animation-delay:0.19s}.w4{animation-delay:0.24s}
+.hsub{font-size:clamp(0.92rem,2vw,1.08rem);color:rgba(255,255,255,0.55);line-height:1.85;max-width:510px;margin:0 auto 46px;animation:blurUp 1s 0.32s cubic-bezier(0.16,1,0.3,1) both;font-weight:300}
+.hbtns{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;animation:fadeUp 0.9s 0.46s both}
+.btn{padding:14px 30px;border-radius:50px;font-family:'Barlow',sans-serif;font-weight:500;font-size:0.93rem;cursor:pointer;border:none;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.35s cubic-bezier(0.16,1,0.3,1)}
+.bsolid{background:#fff;color:#02040A}.bsolid:hover{background:rgba(255,255,255,0.9);transform:translateY(-2px);box-shadow:0 14px 40px rgba(255,255,255,0.12)}
+.bgh{color:#fff}.bgh:hover{background:rgba(255,255,255,0.07)}
+.hstats{display:flex;gap:52px;margin-top:74px;animation:fadeUp 0.9s 0.56s both}
+.sn{font-family:'Instrument Serif',serif;font-style:italic;font-size:2.7rem;background:linear-gradient(135deg,#fff 0%,rgba(255,255,255,0.45) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sl{font-size:0.72rem;color:rgba(255,255,255,0.38);letter-spacing:0.13em;text-transform:uppercase;margin-top:4px}
+
+/* SECTIONS */
+section{padding:120px 6%;position:relative;overflow:hidden}
+.slbl{font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.38);font-weight:500;margin-bottom:14px}
+h2{font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(1.9rem,4.5vw,3.4rem);line-height:1.1;letter-spacing:-0.02em;margin-bottom:14px}
+.sdesc{color:rgba(255,255,255,0.5);font-size:1.02rem;line-height:1.82;max-width:460px;margin-bottom:60px;font-weight:300}
+
+/* MISSION */
+#mission{padding:140px 6%;text-align:center}
+.morb{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:620px;height:320px;background:radial-gradient(ellipse,rgba(26,58,140,0.18) 0%,transparent 70%);filter:blur(70px);pointer-events:none;animation:floatOrb 9s ease-in-out infinite}
+.gline{width:1px;height:0;background:linear-gradient(to bottom,transparent,rgba(77,166,255,0.45),transparent);margin:0 auto 50px;transition:height 1.2s cubic-bezier(0.16,1,0.3,1)}
+.gline.in{height:80px}
+.mtext{font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(1.35rem,3.2vw,2.3rem);line-height:1.55;color:rgba(255,255,255,0.87);max-width:740px;margin:0 auto;letter-spacing:-0.01em}
+
+/* HOW */
+#how{background:rgba(255,255,255,0.012);border-top:1px solid rgba(255,255,255,0.055)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px}
+.step{padding:36px 26px;border-radius:22px;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1)}
+.step:hover{transform:translateY(-6px)}
+.stn{font-family:'Instrument Serif',serif;font-style:italic;font-size:3.8rem;line-height:1;color:rgba(255,255,255,0.05);margin-bottom:18px}
+.sti{font-size:1.55rem;margin-bottom:13px}
+.step h3{font-family:'Barlow',sans-serif;font-weight:600;font-size:0.96rem;margin-bottom:10px;letter-spacing:0.01em}
+.step p{font-size:0.87rem;color:rgba(255,255,255,0.48);line-height:1.72}
+
+/* CATS */
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:13px;margin-top:54px}
+.cat{padding:28px 18px;border-radius:20px;text-align:center;cursor:pointer;transition:all 0.4s cubic-bezier(0.16,1,0.3,1)}
+.cat:hover{transform:translateY(-5px) scale(1.02);background:rgba(26,58,140,0.18)!important}
+.ci{font-size:1.75rem;margin-bottom:12px}
+.cn{font-weight:500;font-size:0.88rem;margin-bottom:3px}
+.csp{font-size:0.73rem;color:rgba(77,166,255,0.75);letter-spacing:0.04em}
+
+/* LEADERBOARD */
+#leaderboard{background:rgba(255,255,255,0.012);border-top:1px solid rgba(255,255,255,0.055)}
+.lorb{position:absolute;right:-80px;top:50%;transform:translateY(-50%);width:480px;height:480px;background:radial-gradient(ellipse,rgba(26,58,140,0.1) 0%,transparent 70%);filter:blur(90px);pointer-events:none}
+.lbf{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.lbfb{padding:8px 20px;border-radius:40px;font-size:0.8rem;font-family:'Barlow',sans-serif;cursor:pointer;border:none;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.45);transition:all 0.3s;letter-spacing:0.03em}
+.lbfb.on,.lbfb:hover{background:rgba(26,58,140,0.3);color:#fff}
+.lbw{border-radius:20px;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+thead tr{border-bottom:1px solid rgba(255,255,255,0.065)}
+th{padding:13px 18px;text-align:left;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.28);font-weight:500}
+tbody tr{border-bottom:1px solid rgba(255,255,255,0.035);transition:background 0.2s}
+tbody tr:hover{background:rgba(255,255,255,0.025)}
+td{padding:15px 18px}
+.rk{font-family:'Instrument Serif',serif;font-style:italic;font-size:1.2rem}
+.rk.g{color:#ffd700}.rk.s{color:#c0c0c0}.rk.b{color:#cd7f32}
+.uinf{display:flex;align-items:center;gap:13px}
+.av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#1d3e96,#4da6ff);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:0.88rem;flex-shrink:0}
+.un{font-weight:500;font-size:0.9rem}
+.uu{font-size:0.73rem;color:rgba(255,255,255,0.32);margin-top:1px}
+.bdg{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:6px;font-size:0.7rem;font-weight:500;letter-spacing:0.03em}
+.be{background:rgba(240,165,0,0.1);color:#f0a500}.bg2{background:rgba(255,215,0,0.08);color:#ffd700}.bs{background:rgba(192,192,192,0.08);color:#c0c0c0}.bb{background:rgba(205,127,50,0.08);color:#cd7f32}.bst{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.35)}
+.sc{font-family:'Barlow',sans-serif;font-weight:600;font-size:0.98rem;color:#4da6ff}
+.lbempty{text-align:center;padding:80px;color:rgba(255,255,255,0.25);font-family:'Instrument Serif',serif;font-style:italic;font-size:1.1rem}
+
+/* NEWS */
+.norb{position:absolute;left:-60px;top:40%;width:380px;height:380px;background:radial-gradient(ellipse,rgba(75,0,130,0.09) 0%,transparent 70%);filter:blur(80px);pointer-events:none;animation:floatOrb 11s ease-in-out infinite}
+.ngrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px;margin-top:54px}
+.nc{border-radius:22px;text-decoration:none;color:inherit;display:block;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1)}
+.nc:hover{transform:translateY(-5px)}
+.nb{padding:30px}
+.ncat{display:inline-block;padding:4px 11px;border-radius:6px;font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;background:rgba(26,58,140,0.22);color:rgba(77,166,255,0.88);margin-bottom:13px}
+.nt{font-family:'Instrument Serif',serif;font-size:1.1rem;margin-bottom:9px;line-height:1.42}
+.ne{font-size:0.84rem;color:rgba(255,255,255,0.48);line-height:1.72;margin-bottom:16px}
+.nd{font-size:0.71rem;color:rgba(255,255,255,0.22);letter-spacing:0.04em}
+
+/* ABOUT */
+#about{background:rgba(255,255,255,0.012);border-top:1px solid rgba(255,255,255,0.055)}
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.feats{list-style:none;margin-top:34px;display:flex;flex-direction:column;gap:12px}
+.feats li{display:flex;gap:15px;padding:20px 20px;border-radius:16px;transition:transform 0.3s}
+.feats li:hover{transform:translateX(4px)}
+.fi{font-size:1.45rem;flex-shrink:0;margin-top:1px}
+.ft strong{display:block;font-weight:600;font-size:0.9rem;margin-bottom:3px}
+.ft span{font-size:0.82rem;color:rgba(255,255,255,0.42);line-height:1.65}
+.acards{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.ac{border-radius:20px;padding:30px 22px;text-align:center}
+.acn{font-family:'Instrument Serif',serif;font-style:italic;font-size:3rem;background:linear-gradient(135deg,#4da6ff,rgba(255,255,255,0.55));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.acl{font-size:0.72rem;color:rgba(255,255,255,0.32);margin-top:5px;letter-spacing:0.08em;text-transform:uppercase}
+
+/* TIMELINE */
+.tlw{position:relative;margin-top:70px}
+.tlline{position:absolute;left:50%;transform:translateX(-50%);width:1px;top:0;bottom:0;background:linear-gradient(to bottom,transparent,rgba(77,166,255,0.38) 15%,rgba(77,166,255,0.38) 85%,transparent)}
+.tlitems{display:flex;flex-direction:column}
+.tli{display:grid;grid-template-columns:1fr 38px 1fr;align-items:start;padding:36px 0}
+.tlc{border-radius:18px;padding:26px 22px}
+.tli:nth-child(odd) .tlc{grid-column:1;padding-right:48px;text-align:right}
+.tli:nth-child(odd) .tle{grid-column:3}
+.tli:nth-child(even) .tlc{grid-column:3;padding-left:48px}
+.tli:nth-child(even) .tle{grid-column:1}
+.tln{grid-column:2;width:13px;height:13px;border-radius:50%;background:#4da6ff;box-shadow:0 0 0 4px rgba(77,166,255,0.18),0 0 22px rgba(77,166,255,0.38);animation:pulse 3s ease-in-out infinite;justify-self:center;align-self:start;margin-top:10px}
+.tlst{font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(77,166,255,0.7);margin-bottom:7px}
+.tlc h3{font-family:'Instrument Serif',serif;font-style:italic;font-size:1.18rem;margin-bottom:7px}
+.tlc p{font-size:0.84rem;color:rgba(255,255,255,0.42);line-height:1.72}
+
+/* FAQ */
+#faq{background:rgba(255,255,255,0.012);border-top:1px solid rgba(255,255,255,0.055)}
+.flist{max-width:700px;margin:52px auto 0;display:flex;flex-direction:column;gap:10px}
+.fq{width:100%;padding:19px 22px;border-radius:13px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;border:none;text-align:left;font-family:'Barlow',sans-serif;font-weight:500;font-size:0.93rem;color:#fff;transition:all 0.3s}
+.fq:hover{background:rgba(255,255,255,0.035)!important}
+.fq.op{background:rgba(26,58,140,0.14)!important}
+.fa{width:22px;height:22px;border:1px solid rgba(255,255,255,0.18);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),border-color 0.3s;font-size:0.68rem;flex-shrink:0}
+.fq.op .fa{transform:rotate(180deg);border-color:rgba(77,166,255,0.45)}
+.fans{overflow:hidden;max-height:0;transition:max-height 0.5s cubic-bezier(0.16,1,0.3,1)}
+.fans.op{max-height:200px}
+.fai{padding:4px 22px 18px;font-size:0.86rem;color:rgba(255,255,255,0.45);line-height:1.82}
+
+/* REGISTER */
+#register{text-align:center;padding:120px 6%}
+.rorb{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:680px;height:400px;background:radial-gradient(ellipse,rgba(26,58,140,0.14) 0%,transparent 65%);filter:blur(90px);pointer-events:none}
+.rw{max-width:548px;margin:0 auto;border-radius:26px;padding:50px 42px;text-align:left}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.fg{margin-bottom:17px}
+label{display:block;font-size:0.75rem;color:rgba(255,255,255,0.35);margin-bottom:7px;letter-spacing:0.09em;text-transform:uppercase}
+input,select{width:100%;padding:13px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;color:#fff;font-size:0.9rem;font-family:'Barlow',sans-serif;outline:none;transition:border-color 0.3s,background 0.3s;-webkit-appearance:none}
+input::placeholder{color:rgba(255,255,255,0.18)}
+input:focus,select:focus{border-color:rgba(77,166,255,0.45);background:rgba(255,255,255,0.06)}
+select option{background:#0c1524}
+.stags{display:flex;flex-wrap:wrap;gap:7px;margin-top:7px}
+.stag{padding:7px 13px;border-radius:8px;border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.03);cursor:pointer;font-size:0.8rem;font-family:'Barlow',sans-serif;color:rgba(255,255,255,0.5);transition:all 0.3s;user-select:none}
+.stag.sel{background:rgba(26,58,140,0.28);border-color:rgba(77,166,255,0.38);color:#4da6ff}
+.fmsg{padding:12px 15px;border-radius:10px;font-size:0.87rem;margin-bottom:15px;display:none}
+.fmsg.ok{background:rgba(34,197,94,0.09);border:1px solid rgba(34,197,94,0.22);color:#4ade80}
+.fmsg.er{background:rgba(239,68,68,0.09);border:1px solid rgba(239,68,68,0.22);color:#f87171}
+.breg{width:100%;padding:15px;border-radius:50px;background:#fff;color:#02040A;border:none;font-family:'Barlow',sans-serif;font-weight:600;font-size:0.92rem;cursor:pointer;margin-top:6px;transition:all 0.35s cubic-bezier(0.16,1,0.3,1);letter-spacing:0.02em}
+.breg:hover{background:rgba(255,255,255,0.9);transform:translateY(-2px);box-shadow:0 14px 40px rgba(255,255,255,0.12)}
+.breg:disabled{opacity:0.45;cursor:not-allowed;transform:none}
+
+/* FOOTER */
+footer{border-top:1px solid rgba(255,255,255,0.065);padding:70px 6% 38px}
+.ftop{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:56px;margin-bottom:56px}
+.flogo{font-family:'Instrument Serif',serif;font-style:italic;font-size:1.6rem}
+.fbrand p{font-size:0.83rem;color:rgba(255,255,255,0.38);line-height:1.72;margin-top:11px;max-width:235px}
+.fsub{display:flex;margin-top:22px;gap:9px}
+.fsub input{border-radius:50px;flex:1;padding:11px 17px;font-size:0.83rem}
+.fsub button{background:#fff;color:#02040A;border:none;padding:11px 20px;border-radius:50px;font-family:'Barlow',sans-serif;font-weight:500;font-size:0.83rem;cursor:pointer;white-space:nowrap;transition:opacity 0.2s}
+.fsub button:hover{opacity:0.85}
+.fcol h4{font-weight:600;font-size:0.76rem;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.42);margin-bottom:18px}
+.fcol ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.fcol ul a{color:rgba(255,255,255,0.36);text-decoration:none;font-size:0.86rem;transition:color 0.2s}
+.fcol ul a:hover{color:#fff}
+.fbot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;padding-top:30px;border-top:1px solid rgba(255,255,255,0.055)}
+.fbot span{font-size:0.76rem;color:rgba(255,255,255,0.22)}
+.fpart{font-family:'Instrument Serif',serif;font-style:italic;font-size:0.93rem;color:rgba(255,255,255,0.28)}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:rgba(255,255,255,0.02)}::-webkit-scrollbar-thumb{background:rgba(77,166,255,0.22);border-radius:3px}
+
+/* MOBILE */
+@media(max-width:860px){.agrid{grid-template-columns:1fr}.ftop{grid-template-columns:1fr;gap:36px}.tlline,.tln{display:none}.tli{grid-template-columns:1fr;padding:14px 0}.tli:nth-child(odd) .tlc,.tli:nth-child(even) .tlc{grid-column:1;padding:0;text-align:left}.tle{display:none}}
+@media(max-width:580px){.hstats{gap:24px}.sn{font-size:2.1rem}.frow{grid-template-columns:1fr}.rw{padding:28px 20px}.cats{grid-template-columns:repeat(3,1fr)}table th:nth-child(3),table td:nth-child(3){display:none}}
 </style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
-  <a class="logo" href="#">
-    <span class="logo-icon">⚡</span>
-    Skills Swap
-  </a>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#how">Как работает</a></li>
-    <li><a href="#leaderboard">Рейтинг</a></li>
-    <li><a href="#news">Новости</a></li>
-    <li><a href="#about">О проекте</a></li>
-    <li><a href="#register" class="nav-cta">Регистрация</a></li>
-  </ul>
-  <div class="burger" onclick="document.getElementById('navLinks').classList.toggle('open')">
-    <span></span><span></span><span></span>
+  <a class="nlogo lg" href="#" title="Skills Swap">⚡</a>
+  <div class="npill lg" id="npill">
+    <div class="nlinks">
+      <a href="#how">Как работает</a>
+      <a href="#leaderboard">Рейтинг</a>
+      <a href="#news">Новости</a>
+      <a href="#about">О нас</a>
+    </div>
+    <a href="#register" class="ncta">Регистрация ↗</a>
   </div>
+  <div class="burger" onclick="document.getElementById('mn').classList.toggle('open')"><span></span><span></span><span></span></div>
 </nav>
+<div class="mnav lgs" id="mn">
+  <a href="#how" onclick="this.closest('.mnav').classList.remove('open')">Как работает</a>
+  <a href="#leaderboard" onclick="this.closest('.mnav').classList.remove('open')">Рейтинг</a>
+  <a href="#news" onclick="this.closest('.mnav').classList.remove('open')">Новости</a>
+  <a href="#about" onclick="this.closest('.mnav').classList.remove('open')">О проекте</a>
+  <a href="#register" onclick="this.closest('.mnav').classList.remove('open')">Регистрация</a>
+</div>
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-badge">🇰🇬 Запущен в ОшТУ, Кыргызстан</div>
-  <h1>Обменивайся<br><span>навыками</span><br>со студентами</h1>
-  <p class="hero-sub">Skills Swap — платформа где студенты помогают друг другу. Напишешь код за немецкий. Сделаешь дизайн за физику. Всё честно — через Skills Points.</p>
-  <div class="hero-buttons">
-    <a href="#register" class="btn-primary">Начать бесплатно →</a>
-    <a href="#how" class="btn-ghost">Как это работает</a>
-  </div>
-  <div class="hero-stats">
-    <div class="stat">
-      <div class="stat-num" id="statUsers">0</div>
-      <div class="stat-label">студентов</div>
+  <div class="hbg"></div>
+  <div class="stars" id="stars"></div>
+  <div class="hc">
+    <div class="hbadge lg">🇰🇬 Запущен в ОшТУ, Кыргызстан</div>
+    <h1>
+      <span class="w w0">Обменивайся</span>&nbsp;
+      <span class="w w1">навыками</span><br>
+      <span class="w w2">бесплатно</span>&nbsp;
+      <span class="w w3">со</span>&nbsp;
+      <span class="w w4">студентами</span>
+    </h1>
+    <p class="hsub">Skills Swap — платформа где знания это валюта. Напишешь код за немецкий. Сделаешь дизайн за физику. Всё честно, через Skills Points.</p>
+    <div class="hbtns">
+      <a href="#register" class="btn bsolid">Начать бесплатно →</a>
+      <a href="#how" class="btn bgh lg">Как это работает ↓</a>
     </div>
-    <div class="stat">
-      <div class="stat-num" id="statDeals">0</div>
-      <div class="stat-label">сделок</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num" id="statListings">0</div>
-      <div class="stat-label">активных заявок</div>
+    <div class="hstats">
+      <div><div class="sn" id="sU">0</div><div class="sl">Студентов</div></div>
+      <div><div class="sn" id="sD">0</div><div class="sl">Сделок</div></div>
+      <div><div class="sn" id="sL">0</div><div class="sl">Заявок</div></div>
     </div>
   </div>
 </section>
 
+<!-- MISSION -->
+<section id="mission">
+  <div class="morb"></div>
+  <div class="gline reveal" id="gl"></div>
+  <p class="mtext reveal d1">"Мы создаём платформу, где каждый студент может учить и учиться одновременно. Твои знания ценнее, чем ты думаешь."</p>
+</section>
+
 <!-- HOW -->
 <section id="how">
-  <div class="section-label">Механика</div>
-  <h2>Как это работает</h2>
-  <p class="section-desc">Три шага — и ты уже в системе обмена навыками с другими студентами.</p>
+  <div class="reveal"><div class="slbl">Механика</div></div>
+  <div class="reveal d1"><h2>Как это работает</h2></div>
+  <div class="reveal d2"><p class="sdesc">Четыре шага — и ты уже в системе обмена навыками.</p></div>
   <div class="steps">
-    <div class="step">
-      <div class="step-num">01</div>
-      <div class="step-icon">👤</div>
-      <h3>Создай профиль</h3>
-      <p>Укажи свои навыки — IT, дизайн, языки, учёба. Получи 50 стартовых SP при регистрации.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">02</div>
-      <div class="step-icon">📋</div>
-      <h3>Публикуй заявки</h3>
-      <p>Предложи услугу (OFFER) или попроси помощь (REQUEST). Укажи цену в SP и дедлайн.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">03</div>
-      <div class="step-icon">🤝</div>
-      <h3>Выполняй и расти</h3>
-      <p>Договоритесь, выполните задание, оставьте отзыв. SP начисляются автоматически.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">04</div>
-      <div class="step-icon">🏆</div>
-      <h3>Получай бейджи</h3>
-      <p>Starter → Bronze → Silver → Gold → Expert. Чем выше рейтинг — тем больше привилегий.</p>
-    </div>
+    <div class="step lg reveal d1"><div class="stn">01</div><div class="sti">👤</div><h3>Создай профиль</h3><p>Укажи навыки, вуз и курс. Получи 50 стартовых SP сразу при регистрации.</p></div>
+    <div class="step lg reveal d2"><div class="stn">02</div><div class="sti">📋</div><h3>Публикуй заявку</h3><p>OFFER — предлагаю. REQUEST — ищу помощь. Укажи цену в SP и дедлайн.</p></div>
+    <div class="step lg reveal d3"><div class="stn">03</div><div class="sti">🤝</div><h3>Выполни и получи SP</h3><p>Общайся в чате, сдай работу, получи оценку — SP зачислятся автоматически.</p></div>
+    <div class="step lg reveal d4"><div class="stn">04</div><div class="sti">🏆</div><h3>Расти в рейтинге</h3><p>Starter → Bronze → Silver → Gold → Expert. Выше уровень — больше привилегий.</p></div>
   </div>
 </section>
 
 <!-- CATEGORIES -->
 <section id="categories">
-  <div class="section-label">Что можно обменять</div>
-  <h2>Категории услуг</h2>
+  <div class="reveal"><div class="slbl">Что можно обменять</div></div>
+  <div class="reveal d1"><h2>Категории услуг</h2></div>
   <div class="cats">
-    <div class="cat"><div class="cat-icon">💻</div><div class="cat-name">IT и код</div><div class="cat-sp">50–200 SP</div></div>
-    <div class="cat"><div class="cat-icon">🎨</div><div class="cat-name">Дизайн</div><div class="cat-sp">30–150 SP</div></div>
-    <div class="cat"><div class="cat-icon">📚</div><div class="cat-name">Учёба</div><div class="cat-sp">20–100 SP</div></div>
-    <div class="cat"><div class="cat-icon">🗣️</div><div class="cat-name">Языки</div><div class="cat-sp">20–80 SP</div></div>
-    <div class="cat"><div class="cat-icon">🎬</div><div class="cat-name">Медиа</div><div class="cat-sp">30–120 SP</div></div>
-    <div class="cat"><div class="cat-icon">🔧</div><div class="cat-name">Техника</div><div class="cat-sp">40–160 SP</div></div>
+    <div class="cat lg reveal d1"><div class="ci">💻</div><div class="cn">IT и код</div><div class="csp">50–200 SP</div></div>
+    <div class="cat lg reveal d2"><div class="ci">🎨</div><div class="cn">Дизайн</div><div class="csp">30–150 SP</div></div>
+    <div class="cat lg reveal d3"><div class="ci">📚</div><div class="cn">Учёба</div><div class="csp">20–100 SP</div></div>
+    <div class="cat lg reveal d4"><div class="ci">🗣️</div><div class="cn">Языки</div><div class="csp">20–80 SP</div></div>
+    <div class="cat lg reveal d3"><div class="ci">🎬</div><div class="cn">Медиа</div><div class="csp">30–120 SP</div></div>
+    <div class="cat lg reveal d4"><div class="ci">🔧</div><div class="cn">Техника</div><div class="csp">40–160 SP</div></div>
   </div>
 </section>
 
 <!-- LEADERBOARD -->
 <section id="leaderboard">
-  <div class="section-label">Лидеры платформы</div>
-  <h2>Рейтинг студентов</h2>
-  <p class="section-desc">Топ студентов по Skills Score — реальные данные из системы.</p>
-  <div class="leaderboard-wrap">
-    <div class="lb-filters">
-      <button class="lb-filter active" onclick="filterLB(this,'all')">Все</button>
-      <button class="lb-filter" onclick="filterLB(this,'ОшТУ')">ОшТУ</button>
-      <button class="lb-filter" onclick="filterLB(this,'КТУ Манас')">КТУ Манас</button>
-      <button class="lb-filter" onclick="filterLB(this,'КГТУ')">КГТУ</button>
-    </div>
-    <div id="lbContent">
-      <div class="lb-loading">Загружаем рейтинг...</div>
+  <div class="lorb"></div>
+  <div class="reveal"><div class="slbl">Лидеры платформы</div></div>
+  <div class="reveal d1"><h2>Рейтинг студентов</h2></div>
+  <div class="reveal d2"><p class="sdesc">Топ по Skills Score — живые данные из системы.</p></div>
+  <div class="reveal d2">
+    <div class="lbf">
+      <button class="lbfb on" onclick="fLB(this,'all')">Все вузы</button>
+      <button class="lbfb" onclick="fLB(this,'ОшТУ')">ОшТУ</button>
+      <button class="lbfb" onclick="fLB(this,'КТУ Манас')">КТУ Манас</button>
+      <button class="lbfb" onclick="fLB(this,'КГТУ')">КГТУ</button>
     </div>
   </div>
+  <div class="reveal d3"><div class="lbw lgs" id="lbw"><div class="lbempty">Загружаем рейтинг...</div></div></div>
 </section>
 
 <!-- NEWS -->
 <section id="news">
-  <div class="section-label">Последнее</div>
-  <h2>Новости платформы</h2>
-  <p class="section-desc">Обновления, истории успеха и мероприятия.</p>
-  <div class="news-grid" id="newsGrid">
-    <div class="news-loading">Загружаем новости...</div>
-  </div>
+  <div class="norb"></div>
+  <div class="reveal"><div class="slbl">Последнее</div></div>
+  <div class="reveal d1"><h2>Новости платформы</h2></div>
+  <div class="reveal d2"><p class="sdesc">Обновления, истории успеха и мероприятия.</p></div>
+  <div class="ngrid" id="ng"></div>
 </section>
 
 <!-- ABOUT -->
 <section id="about">
-  <div class="about-grid">
+  <div class="agrid">
     <div>
-      <div class="section-label">О проекте</div>
-      <h2>Почему Skills Swap?</h2>
-      <p class="section-desc">Мы создали платформу где знания — это валюта. Студент ОшТУ, который умеет программировать, помогает тому, кто нужна подготовка к экзамену. И оба выигрывают.</p>
-      <ul class="about-features">
-        <li>
-          <div class="feat-icon">🎯</div>
-          <div class="feat-text">
-            <strong>Реальное портфолио</strong>
-            <span>Каждая выполненная работа попадает в твоё публичное портфолио. Работодатели видят реальные проекты.</span>
-          </div>
-        </li>
-        <li>
-          <div class="feat-icon">🔒</div>
-          <div class="feat-text">
-            <strong>Безопасные сделки</strong>
-            <span>Система защиты сделок, рейтинг честности и механизм жалоб — всё контролируется автоматически.</span>
-          </div>
-        </li>
-        <li>
-          <div class="feat-icon">🚀</div>
-          <div class="feat-text">
-            <strong>Масштабируемся по КР</strong>
-            <span>Начали с ОшТУ, следующие — КТУ Манас, КГТУ, Ала-Тоо. Цель — все вузы Кыргызстана к 2028.</span>
-          </div>
-        </li>
+      <div class="reveal"><div class="slbl">О проекте</div></div>
+      <div class="reveal d1"><h2>Почему Skills Swap?</h2></div>
+      <div class="reveal d2"><p class="sdesc">Мы создали место где знания — это валюта. Программируешь? Помоги другому. Нужна физика? Найди того, кто знает. Оба выигрывают.</p></div>
+      <ul class="feats">
+        <li class="lg reveal d2"><div class="fi">🎯</div><div class="ft"><strong>Реальное портфолио</strong><span>Каждая выполненная работа попадает в публичное портфолио. Работодатели видят реальные проекты.</span></div></li>
+        <li class="lg reveal d3"><div class="fi">🔒</div><div class="ft"><strong>Защита сделок</strong><span>SP блокируются до подтверждения. Система жалоб и рейтинг честности — всё автоматически.</span></div></li>
+        <li class="lg reveal d4"><div class="fi">🚀</div><div class="ft"><strong>Растём по КР</strong><span>Начали с ОшТУ. Следующие — КТУ Манас, КГТУ, Ала-Тоо. Цель: все вузы страны к 2028.</span></div></li>
       </ul>
     </div>
-    <div class="about-visual">
-      <div class="about-card">
-        <div class="about-card-num" id="aUsers">0</div>
-        <div class="about-card-label">студентов</div>
-      </div>
-      <div class="about-card">
-        <div class="about-card-num" id="aDeals">0</div>
-        <div class="about-card-label">сделок</div>
-      </div>
-      <div class="about-card">
-        <div class="about-card-num">6</div>
-        <div class="about-card-label">категорий</div>
-      </div>
-      <div class="about-card">
-        <div class="about-card-num">1</div>
-        <div class="about-card-label">вуз (пока)</div>
-      </div>
+    <div class="acards reveal d2">
+      <div class="ac lg"><div class="acn" id="aU">0</div><div class="acl">студентов</div></div>
+      <div class="ac lg"><div class="acn" id="aD">0</div><div class="acl">сделок</div></div>
+      <div class="ac lg"><div class="acn">6</div><div class="acl">категорий</div></div>
+      <div class="ac lg"><div class="acn">1</div><div class="acl">вуз пока</div></div>
     </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="reveal"><div class="slbl">Путь студента</div></div>
+  <div class="reveal d1"><h2>Как ты растёшь</h2></div>
+  <div class="tlw">
+    <div class="tlline"></div>
+    <div class="tlitems">
+      <div class="tli reveal"><div class="tlc lg"><div class="tlst">Шаг 01</div><h3>Регистрация</h3><p>Создаёшь профиль, выбираешь навыки. Получаешь 50 стартовых SP и статус Starter.</p></div><div class="tln"></div><div class="tle"></div></div>
+      <div class="tli reveal d1"><div class="tle"></div><div class="tln"></div><div class="tlc lg"><div class="tlst">Шаг 02</div><h3>Первая сделка</h3><p>Откликаешься на заявку или публикуешь свою. Договариваешься в чате платформы.</p></div></div>
+      <div class="tli reveal d2"><div class="tlc lg"><div class="tlst">Шаг 03</div><h3>Выполнение и оценка</h3><p>Сдаёшь работу, получаешь SP и отзыв. Рейтинг пересчитывается автоматически.</p></div><div class="tln"></div><div class="tle"></div></div>
+      <div class="tli reveal d3"><div class="tle"></div><div class="tln"></div><div class="tlc lg"><div class="tlst">Шаг 04</div><h3>Эксперт</h3><p>Наращиваешь портфолио, растёшь до Gold и Expert. Становишься ментором для других.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="reveal" style="text-align:center"><div class="slbl" style="display:inline-block">Вопросы</div></div>
+  <div class="reveal d1" style="text-align:center"><h2>Частые вопросы</h2></div>
+  <div class="flist">
+    <div class="reveal d1"><button class="fq lg" onclick="tFaq(this)"><span>Это бесплатно?</span><span class="fa">↓</span></button><div class="fans"><div class="fai">Да, Skills Swap полностью бесплатен для студентов. Платишь не деньгами, а временем и навыками через SP. 50 SP начисляются сразу при регистрации.</div></div></div>
+    <div class="reveal d2"><button class="fq lg" onclick="tFaq(this)"><span>Как защищены сделки?</span><span class="fa">↓</span></button><div class="fans"><div class="fai">SP блокируются до подтверждения выполнения заказчиком. При спорах — модерация и механизм жалоб. Три жалобы на исполнителя — временная блокировка.</div></div></div>
+    <div class="reveal d3"><button class="fq lg" onclick="tFaq(this)"><span>Только для ОшТУ?</span><span class="fa">↓</span></button><div class="fans"><div class="fai">Сейчас пилот в ОшТУ, но регистрация открыта для студентов любого вуза КР. В 2027 подключим КТУ Манас, КГТУ, Ала-Тоо и другие.</div></div></div>
+    <div class="reveal d4"><button class="fq lg" onclick="tFaq(this)"><span>Как получить больше SP?</span><span class="fa">↓</span></button><div class="fans"><div class="fai">Выполняй заказы и получай SP. Бонус +10 SP за 5-звёздочный отзыв. Первая сделка — бонус +20 SP. Активность на платформе тоже влияет на рейтинг.</div></div></div>
   </div>
 </section>
 
 <!-- REGISTER -->
 <section id="register">
-  <div class="register-wrap">
-    <div class="section-label">Присоединиться</div>
-    <h2>Регистрация</h2>
-    <p class="section-desc">Создай аккаунт и получи 50 стартовых SP. Бесплатно.</p>
-
-    <div class="form-msg" id="formMsg"></div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label>Имя</label>
-        <input type="text" id="fname" placeholder="Азиз">
-      </div>
-      <div class="form-group">
-        <label>Фамилия</label>
-        <input type="text" id="lname" placeholder="Уметов">
-      </div>
+  <div class="rorb"></div>
+  <div class="reveal" style="text-align:center;margin-bottom:44px">
+    <div class="slbl" style="display:inline-block">Присоединиться</div>
+    <h2>Начни прямо сейчас</h2>
+    <p style="color:rgba(255,255,255,0.4);font-size:0.98rem;margin-top:7px;font-weight:300">50 SP уже ждут тебя</p>
+  </div>
+  <div class="rw lgs reveal d1">
+    <div class="fmsg" id="fm"></div>
+    <div class="frow">
+      <div class="fg"><label>Имя</label><input type="text" id="fn" placeholder="Азиз"></div>
+      <div class="fg"><label>Фамилия</label><input type="text" id="ln" placeholder="Уметов"></div>
     </div>
-
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email" id="email" placeholder="your@email.com">
+    <div class="fg"><label>Email</label><input type="email" id="em" placeholder="your@email.com"></div>
+    <div class="fg"><label>Пароль</label><input type="password" id="pw" placeholder="Минимум 6 символов"></div>
+    <div class="frow">
+      <div class="fg"><label>Вуз</label><select id="uni"><option value="">Выбери вуз</option><option>ОшТУ</option><option>КТУ Манас</option><option>КГТУ</option><option>Ала-Тоо</option><option>ОшГУ</option><option>АУЦА</option><option>Другой</option></select></div>
+      <div class="fg"><label>Курс</label><select id="yr"><option value="">Курс</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>
     </div>
-
-    <div class="form-group">
-      <label>Пароль</label>
-      <input type="password" id="password" placeholder="Минимум 6 символов">
-    </div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label>Вуз</label>
-        <select id="university">
-          <option value="">Выбери вуз</option>
-          <option>ОшТУ</option>
-          <option>КТУ Манас</option>
-          <option>КГТУ</option>
-          <option>Ала-Тоо</option>
-          <option>ОшГУ</option>
-          <option>АУЦА</option>
-          <option>Другой</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Курс</label>
-        <select id="year">
-          <option value="">Курс</option>
-          <option value="1">1 курс</option>
-          <option value="2">2 курс</option>
-          <option value="3">3 курс</option>
-          <option value="4">4 курс</option>
-          <option value="5">5 курс</option>
-        </select>
+    <div class="fg"><label>Факультет</label><input type="text" id="fc" placeholder="Информационные технологии"></div>
+    <div class="fg">
+      <label>Навыки (минимум 2)</label>
+      <div class="stags">
+        <div class="stag" onclick="tSk(this,'it')">💻 IT</div>
+        <div class="stag" onclick="tSk(this,'design')">🎨 Дизайн</div>
+        <div class="stag" onclick="tSk(this,'study')">📚 Учёба</div>
+        <div class="stag" onclick="tSk(this,'languages')">🗣️ Языки</div>
+        <div class="stag" onclick="tSk(this,'media')">🎬 Медиа</div>
+        <div class="stag" onclick="tSk(this,'tech')">🔧 Техника</div>
+        <div class="stag" onclick="tSk(this,'math')">📐 Математика</div>
+        <div class="stag" onclick="tSk(this,'writing')">✍️ Тексты</div>
       </div>
     </div>
-
-    <div class="form-group">
-      <label>Факультет</label>
-      <input type="text" id="faculty" placeholder="Информационные технологии">
-    </div>
-
-    <div class="form-group">
-      <label>Выбери навыки (минимум 2)</label>
-      <div class="skills-select" id="skillsSelect">
-        <div class="skill-tag" onclick="toggleSkill(this,'it')">💻 IT / Код</div>
-        <div class="skill-tag" onclick="toggleSkill(this,'design')">🎨 Дизайн</div>
-        <div class="skill-tag" onclick="toggleSkill(this,'study')">📚 Учёба</div>
-        <div class="skill-tag" onclick="toggleSkill(this,'languages')">🗣️ Языки</div>
-        <div class="skill-tag" onclick="toggleSkill(this,'media')">🎬 Медиа</div>
-        <div class="skill-tag" onclick="toggleSkill(this,'tech')">🔧 Техника</div>
-        <div class="skill-tag" onclick="toggleSkill(this,'math')">📐 Математика</div>
-        <div class="skill-tag" onclick="toggleSkill(this,'writing')">✍️ Тексты</div>
-      </div>
-    </div>
-
-    <button class="btn-primary btn-full" onclick="register()">Создать аккаунт →</button>
-    <p style="text-align:center;margin-top:16px;font-size:0.82rem;color:var(--gray)">
-      Уже есть аккаунт? Открой приложение Skills Swap
-    </p>
+    <button class="breg" onclick="doReg()">Создать аккаунт и получить 50 SP →</button>
+    <p style="text-align:center;margin-top:14px;font-size:0.78rem;color:rgba(255,255,255,0.22)">Уже есть аккаунт? Открой мобильное приложение</p>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">⚡ Skills Swap</div>
-  <div class="footer-links">
-    <a href="#how">Как работает</a>
-    <a href="#leaderboard">Рейтинг</a>
-    <a href="#news">Новости</a>
-    <a href="#about">О проекте</a>
-    <a href="https://t.me/" target="_blank">Telegram</a>
+  <div class="ftop">
+    <div class="fbrand">
+      <div class="flogo">⚡ Skills Swap</div>
+      <p>Студенческая платформа для обмена навыками. Твои знания ценнее, чем ты думаешь.</p>
+      <div class="fsub"><input type="email" placeholder="Твой email" id="subE"><button onclick="sub()">Подписаться</button></div>
+    </div>
+    <div class="fcol"><h4>Платформа</h4><ul><li><a href="#how">Как работает</a></li><li><a href="#leaderboard">Рейтинг</a></li><li><a href="#news">Новости</a></li><li><a href="#register">Регистрация</a></li></ul></div>
+    <div class="fcol"><h4>О нас</h4><ul><li><a href="#about">О проекте</a></li><li><a href="#faq">FAQ</a></li><li><a href="#">Политика</a></li><li><a href="https://t.me/" target="_blank">Telegram</a></li></ul></div>
   </div>
-  <div class="footer-copy">© 2026 Skills Swap · ОшТУ, Кыргызстан</div>
+  <div class="fbot">
+    <span>© 2026 Skills Swap · ОшТУ, Ош, Кыргызстан</span>
+    <div class="fpart">ОшТУ · Youth Committee · OK Google</div>
+  </div>
 </footer>
 
 <script>
-  // ─── CONFIG ───────────────────────────────────────────────────────
-  const SUPABASE_URL = 'https://dktzlzopzjcxbuxsptyf.supabase.co';
-  const SUPABASE_ANON = 'sb_publishable_JpRMnzyk7z3HizjRcPmEvQ_8ZQeOHdN'; // ← замени на свой anon key
+// CONFIG
+const SB='https://dktzlzopzjcxbuxsptyf.supabase.co';
+const KEY='ВСТАВЬ_ANON_KEY_ЗДЕСЬ';
 
-  async function supa(path, opts = {}) {
-    const res = await fetch(SUPABASE_URL + path, {
-      headers: {
-        'apikey': SUPABASE_ANON,
-        'Authorization': 'Bearer ' + SUPABASE_ANON,
-        'Content-Type': 'application/json',
-        ...opts.headers
-      }, ...opts
-    });
-    return res;
+// STARS
+(function(){
+  const c=document.getElementById('stars');
+  for(let i=0;i<80;i++){
+    const s=document.createElement('div');s.className='star';
+    const sz=Math.random()*1.8+0.4;
+    s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;opacity:${Math.random()*0.6+0.1};animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*4}s`;
+    c.appendChild(s);
   }
+})();
 
-  // ─── STATS ────────────────────────────────────────────────────────
-  async function loadStats() {
-    try {
-      const r = await supa('/rest/v1/rpc/get_stats', { method: 'POST', body: '{}' });
-      if (!r.ok) return;
-      const d = await r.json();
-      animateNum('statUsers', d.total_users || 0);
-      animateNum('statDeals', d.completed_deals || 0);
-      animateNum('statListings', d.active_listings || 0);
-      animateNum('aUsers', d.total_users || 0);
-      animateNum('aDeals', d.completed_deals || 0);
-    } catch(e) {
-      // silently fail — demo numbers show
-      animateNum('statUsers', 1); animateNum('statDeals', 0); animateNum('statListings', 0);
+// REVEAL
+const ro=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      if(e.target.id==='gl')e.target.style.height='80px';
     }
-  }
+  });
+},{threshold:0.08,rootMargin:'-30px'});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 
-  function animateNum(id, target) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    let cur = 0; const step = Math.max(1, Math.floor(target / 40));
-    const t = setInterval(() => {
-      cur = Math.min(cur + step, target);
-      el.textContent = cur;
-      if (cur >= target) clearInterval(t);
-    }, 30);
-  }
+// NUM ANIM
+function aN(id,t){const el=document.getElementById(id);if(!el)return;let c=0;const s=Math.max(1,Math.ceil(t/55));const i=setInterval(()=>{c=Math.min(c+s,t);el.textContent=c;if(c>=t)clearInterval(i)},22)}
 
-  // ─── LEADERBOARD ─────────────────────────────────────────────────
-  let lbData = [];
-  let lbFilter = 'all';
+// STATS
+async function loadStats(){
+  try{
+    const r=await fetch(SB+'/rest/v1/rpc/get_stats',{method:'POST',headers:{'apikey':KEY,'Content-Type':'application/json'},body:'{}'});
+    if(!r.ok)throw 0;const d=await r.json();
+    aN('sU',d.total_users||0);aN('sD',d.completed_deals||0);aN('sL',d.active_listings||0);
+    aN('aU',d.total_users||0);aN('aD',d.completed_deals||0);
+  }catch{aN('sU',1);aN('sD',0);aN('sL',0);aN('aU',1);aN('aD',0)}
+}
 
-  async function loadLeaderboard() {
-    try {
-      const r = await supa('/rest/v1/rpc/get_leaderboard', {
-        method: 'POST',
-        body: JSON.stringify({ p_limit: 20, p_university: null })
-      });
-      if (!r.ok) throw new Error();
-      lbData = await r.json();
-      renderLB();
-    } catch(e) {
-      renderLBDemo();
+// LEADERBOARD
+let lbAll=[],lbFilter='all';
+async function loadLB(){
+  try{
+    const r=await fetch(SB+'/rest/v1/rpc/get_leaderboard',{method:'POST',headers:{'apikey':KEY,'Content-Type':'application/json'},body:JSON.stringify({p_limit:20,p_university:null})});
+    if(!r.ok)throw 0;lbAll=await r.json();renderLB();
+  }catch{demoLB()}
+}
+function demoLB(){
+  lbAll=[
+    {rank:1,full_name:'Намазбек М.',university:'ОшТУ',badge_level:'expert',skills_score:980,deals_count:24},
+    {rank:2,full_name:'Айгуль К.',university:'ОшТУ',badge_level:'gold',skills_score:720,deals_count:18},
+    {rank:3,full_name:'Азамат Б.',university:'ОшТУ',badge_level:'silver',skills_score:430,deals_count:11},
+    {rank:4,full_name:'Зарина Т.',university:'ОшТУ',badge_level:'bronze',skills_score:210,deals_count:6},
+    {rank:5,full_name:'Улан Д.',university:'ОшТУ',badge_level:'starter',skills_score:80,deals_count:2},
+  ];renderLB();
+}
+function fLB(b,f){document.querySelectorAll('.lbfb').forEach(x=>x.classList.remove('on'));b.classList.add('on');lbFilter=f;renderLB()}
+function renderLB(){
+  const data=lbFilter==='all'?lbAll:lbAll.filter(u=>u.university===lbFilter);
+  if(!data.length){document.getElementById('lbw').innerHTML='<div class="lbempty">Нет данных</div>';return}
+  const bm={expert:['be','💎 Expert'],gold:['bg2','🥇 Gold'],silver:['bs','⚪ Silver'],bronze:['bb','🟤 Bronze'],starter:['bst','⬜ Starter']};
+  const rc=i=>i===1?'g':i===2?'s':i===3?'b':'';
+  document.getElementById('lbw').innerHTML=`<table>
+  <thead><tr><th>#</th><th>Студент</th><th>Вуз</th><th>Бейдж</th><th>Score</th><th>Сделок</th></tr></thead>
+  <tbody>${data.map((u,i)=>{const[bc,bl]=bm[u.badge_level]||bm.starter;const rk=u.rank||(i+1);
+  return`<tr><td><span class="rk ${rc(rk)}">${rk}</span></td>
+  <td><div class="uinf"><div class="av">${(u.full_name||'?')[0]}</div><div><div class="un">${u.full_name||'—'}</div><div class="uu">${u.university||''}</div></div></div></td>
+  <td style="color:rgba(255,255,255,0.3);font-size:0.82rem">${u.university||'—'}</td>
+  <td><span class="bdg ${bc}">${bl}</span></td>
+  <td><span class="sc">${Math.round(u.skills_score||0)}</span></td>
+  <td style="color:rgba(255,255,255,0.35)">${u.deals_count||0}</td></tr>`;}).join('')}</tbody></table>`;
+}
+
+// NEWS
+(function(){
+  const posts=[
+    {cat:'Обновления',title:'Skills Swap запущен в ОшТУ!',exc:'Рады объявить об официальном запуске платформы Skills Swap. Теперь студенты могут обмениваться навыками и получать Skills Points!',date:'2026-03-28'},
+    {cat:'Истории успеха',title:'Как я нашёл помощника для курсовой',exc:'Студент 3-го курса рассказывает, как нашёл программиста через платформу и обменял это на подготовку к экзамену по немецкому.',date:'2026-03-25'},
+    {cat:'Мероприятия',title:'Skills Swap на хакатоне в Ала-Тоо',exc:'Команда Skills Swap приняла участие в AI Hackathon. Рассказываем что получилось и что планируется дальше.',date:'2026-03-20'},
+  ];
+  const g=document.getElementById('ng');
+  g.innerHTML=posts.map(p=>`<a class="nc lg reveal" href="#"><div class="nb"><span class="ncat">${p.cat}</span><div class="nt">${p.title}</div><div class="ne">${p.exc}</div><div class="nd">${new Date(p.date).toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'})}</div></div></a>`).join('');
+  g.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+})();
+
+// FAQ
+function tFaq(btn){const a=btn.nextElementSibling;const op=btn.classList.contains('op');document.querySelectorAll('.fq.op').forEach(b=>{b.classList.remove('op');b.nextElementSibling.classList.remove('op')});if(!op){btn.classList.add('op');a.classList.add('op')}}
+
+// SKILLS
+const sel=new Set();
+function tSk(el,v){sel.has(v)?(sel.delete(v),el.classList.remove('sel')):(sel.add(v),el.classList.add('sel'))}
+
+// REGISTER
+async function doReg(){
+  const fn=document.getElementById('fn').value.trim(),ln=document.getElementById('ln').value.trim();
+  const em=document.getElementById('em').value.trim(),pw=document.getElementById('pw').value;
+  const uni=document.getElementById('uni').value,yr=document.getElementById('yr').value;
+  const fc=document.getElementById('fc').value.trim();
+  if(!fn||!ln||!em||!pw||!uni||!yr){sMsg('er','Заполни все обязательные поля');return}
+  if(pw.length<6){sMsg('er','Пароль минимум 6 символов');return}
+  if(sel.size<2){sMsg('er','Выбери минимум 2 навыка');return}
+  const btn=document.querySelector('.breg');btn.textContent='Создаём аккаунт...';btn.disabled=true;
+  try{
+    const ar=await fetch(SB+'/auth/v1/signup',{method:'POST',headers:{'apikey':KEY,'Content-Type':'application/json'},body:JSON.stringify({email:em,password:pw})});
+    const ad=await ar.json();
+    if(ad.error){sMsg('er',ad.error.message||'Ошибка');btn.textContent='Создать аккаунт →';btn.disabled=false;return}
+    if(ad.user?.id){
+      await fetch(SB+'/rest/v1/users',{method:'POST',headers:{'apikey':KEY,'Authorization':'Bearer '+(ad.access_token||KEY),'Content-Type':'application/json','Prefer':'return=minimal'},
+        body:JSON.stringify({id:ad.user.id,full_name:fn+' '+ln,email:em,university:uni,faculty:fc||null,year:parseInt(yr),skills:Array.from(sel),sp_balance:50})});
     }
-  }
+    sMsg('ok','🎉 Аккаунт создан! Проверь email. 50 SP уже на счету!');btn.textContent='✓ Готово';
+  }catch{sMsg('er','Ошибка сети. Попробуй ещё раз.');btn.textContent='Создать аккаунт →';btn.disabled=false}
+}
+function sMsg(t,x){const el=document.getElementById('fm');el.className='fmsg '+(t==='ok'?'ok':'er');el.textContent=x;el.style.display='block'}
 
-  function filterLB(btn, uni) {
-    document.querySelectorAll('.lb-filter').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    lbFilter = uni;
-    renderLB();
-  }
+// SUBSCRIBE
+function sub(){const el=document.getElementById('subE');if(!el.value.includes('@'))return;el.value='';el.placeholder='Подписка оформлена ✓'}
 
-  function renderLB() {
-    const data = lbFilter === 'all' ? lbData : lbData.filter(u => u.university === lbFilter);
-    if (!data.length) {
-      document.getElementById('lbContent').innerHTML = '<div class="lb-empty">Нет данных для этого фильтра</div>';
-      return;
-    }
-    renderLBTable(data);
-  }
-
-  function renderLBDemo() {
-    lbData = [
-      { rank:1, full_name:'Намазбек М.', university:'ОшТУ', badge_level:'expert', skills_score:980, deals_count:24, avg_rating:4.9 },
-      { rank:2, full_name:'Айгуль К.',   university:'ОшТУ', badge_level:'gold',   skills_score:720, deals_count:18, avg_rating:4.7 },
-      { rank:3, full_name:'Азамат Б.',   university:'ОшТУ', badge_level:'silver', skills_score:430, deals_count:11, avg_rating:4.5 },
-      { rank:4, full_name:'Зарина Т.',   university:'ОшТУ', badge_level:'bronze', skills_score:210, deals_count:6,  avg_rating:4.3 },
-      { rank:5, full_name:'Улан Д.',     university:'ОшТУ', badge_level:'starter',skills_score:80,  deals_count:2,  avg_rating:4.0 },
-    ];
-    renderLB();
-  }
-
-  function renderLBTable(data) {
-    const badgeMap = {
-      expert:  ['expert', '💎 Expert'],
-      gold:    ['gold-b', '🥇 Gold'],
-      silver:  ['silver-b','⚪ Silver'],
-      bronze:  ['bronze-b','🟤 Bronze'],
-      starter: ['starter', '⬜ Starter'],
-    };
-    const rankClass = i => i===1?'gold':i===2?'silver':i===3?'bronze':'';
-
-    document.getElementById('lbContent').innerHTML = `
-      <table class="lb-table">
-        <thead><tr>
-          <th>#</th><th>Студент</th><th>Вуз</th><th>Бейдж</th><th>Score</th><th>Сделок</th>
-        </tr></thead>
-        <tbody>
-          ${data.map((u,i) => {
-            const [bc, bl] = badgeMap[u.badge_level] || badgeMap.starter;
-            const rank = u.rank || (i+1);
-            return `<tr>
-              <td><span class="rank ${rankClass(rank)}">${rank}</span></td>
-              <td>
-                <div class="user-info">
-                  <div class="avatar">${(u.full_name||'?')[0]}</div>
-                  <div>
-                    <div class="user-name">${u.full_name||'—'}</div>
-                    <div class="user-uni">${u.university||''}</div>
-                  </div>
-                </div>
-              </td>
-              <td style="color:var(--gray);font-size:0.88rem">${u.university||'—'}</td>
-              <td><span class="badge ${bc}">${bl}</span></td>
-              <td><span class="score">${Math.round(u.skills_score||0)}</span></td>
-              <td style="color:var(--gray)">${u.deals_count||0}</td>
-            </tr>`;
-          }).join('')}
-        </tbody>
-      </table>`;
-  }
-
-  // ─── NEWS ─────────────────────────────────────────────────────────
-  async function loadNews() {
-    try {
-      const r = await fetch(`${SUPABASE_URL}/rest/v1/rpc/get_blog_posts`, {
-        method: 'POST', body: '{}',
-        headers: { 'apikey': SUPABASE_ANON, 'Content-Type': 'application/json' }
-      });
-      if (!r.ok) throw new Error();
-      const posts = await r.json();
-      renderNews(posts);
-    } catch(e) {
-      renderDemoNews();
-    }
-  }
-
-  function renderNews(posts) {
-    if (!posts || !posts.length) { renderDemoNews(); return; }
-    document.getElementById('newsGrid').innerHTML = posts.slice(0,3).map(p => `
-      <a class="news-card" href="${p.url||'#'}" target="_blank">
-        <div class="news-body">
-          <span class="news-cat">${p.category||'Новость'}</span>
-          <div class="news-title">${p.title}</div>
-          <div class="news-excerpt">${p.excerpt||''}</div>
-          <div class="news-date">${formatDate(p.date)}</div>
-        </div>
-      </a>`).join('');
-  }
-
-  function renderDemoNews() {
-    const posts = [
-      { cat:'Обновления платформы', title:'Skills Swap запущен в ОшТУ!', excerpt:'Рады объявить об официальном запуске платформы Skills Swap в Ошском технологическом университете. Теперь студенты могут обмениваться навыками и получать Skills Points!', date:'2026-03-28' },
-      { cat:'Истории успеха', title:'Как я нашёл помощника для курсовой через Skills Swap', excerpt:'Студент 3-го курса рассказывает, как нашёл программиста для своего проекта через платформу и обменял это на помощь в подготовке к экзамену по немецкому.', date:'2026-03-25' },
-      { cat:'Мероприятия', title:'Skills Swap на хакатоне в Ала-Тоо', excerpt:'Команда Skills Swap приняла участие в AI Hackathon в Ала-Тоо Интернэшнл Юниверсите. Рассказываем, что получилось и что планируется дальше.', date:'2026-03-20' },
-    ];
-    document.getElementById('newsGrid').innerHTML = posts.map(p => `
-      <a class="news-card" href="#">
-        <div class="news-body">
-          <span class="news-cat">${p.cat}</span>
-          <div class="news-title">${p.title}</div>
-          <div class="news-excerpt">${p.excerpt}</div>
-          <div class="news-date">${formatDate(p.date)}</div>
-        </div>
-      </a>`).join('');
-  }
-
-  function formatDate(d) {
-    if (!d) return '';
-    return new Date(d).toLocaleDateString('ru-RU', { day:'numeric', month:'long', year:'numeric' });
-  }
-
-  // ─── SKILLS ───────────────────────────────────────────────────────
-  const selectedSkills = new Set();
-  function toggleSkill(el, val) {
-    if (selectedSkills.has(val)) { selectedSkills.delete(val); el.classList.remove('selected'); }
-    else { selectedSkills.add(val); el.classList.add('selected'); }
-  }
-
-  // ─── REGISTER ─────────────────────────────────────────────────────
-  async function register() {
-    const fname = document.getElementById('fname').value.trim();
-    const lname = document.getElementById('lname').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    const university = document.getElementById('university').value;
-    const year = document.getElementById('year').value;
-    const faculty = document.getElementById('faculty').value.trim();
-    const msg = document.getElementById('formMsg');
-
-    msg.style.display = 'none';
-
-    if (!fname || !lname || !email || !password || !university || !year) {
-      showMsg('error', 'Заполни все обязательные поля'); return;
-    }
-    if (password.length < 6) { showMsg('error', 'Пароль минимум 6 символов'); return; }
-    if (selectedSkills.size < 2) { showMsg('error', 'Выбери минимум 2 навыка'); return; }
-
-    const btn = document.querySelector('.btn-full');
-    btn.textContent = 'Создаём аккаунт...'; btn.disabled = true;
-
-    try {
-      // 1. Sign up via Supabase Auth
-      const authRes = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
-        method: 'POST',
-        headers: { 'apikey': SUPABASE_ANON, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-      const authData = await authRes.json();
-
-      if (authData.error) { showMsg('error', authData.error.message || 'Ошибка регистрации'); btn.textContent = 'Создать аккаунт →'; btn.disabled = false; return; }
-
-      const userId = authData.user?.id;
-      if (!userId) { showMsg('error', 'Ошибка — попробуй ещё раз'); btn.textContent = 'Создать аккаунт →'; btn.disabled = false; return; }
-
-      // 2. Create user profile
-      const token = authData.access_token;
-      await fetch(`${SUPABASE_URL}/rest/v1/users`, {
-        method: 'POST',
-        headers: {
-          'apikey': SUPABASE_ANON,
-          'Authorization': 'Bearer ' + token,
-          'Content-Type': 'application/json',
-          'Prefer': 'return=minimal'
-        },
-        body: JSON.stringify({
-          id: userId,
-          full_name: fname + ' ' + lname,
-          email,
-          university,
-          faculty: faculty || null,
-          year: parseInt(year),
-          skills: Array.from(selectedSkills),
-          sp_balance: 50
-        })
-      });
-
-      showMsg('success', '🎉 Аккаунт создан! Проверь email для подтверждения. Стартовые 50 SP уже на счету!');
-      btn.textContent = 'Аккаунт создан ✓';
-
-    } catch(e) {
-      showMsg('error', 'Ошибка сети. Попробуй ещё раз.');
-      btn.textContent = 'Создать аккаунт →'; btn.disabled = false;
-    }
-  }
-
-  function showMsg(type, text) {
-    const el = document.getElementById('formMsg');
-    el.className = 'form-msg ' + type;
-    el.textContent = text;
-    el.style.display = 'block';
-  }
-
-  // ─── INIT ─────────────────────────────────────────────────────────
-  loadStats();
-  loadLeaderboard();
-  loadNews();
+// INIT
+loadStats();loadLB();
 </script>
 </body>
-  </html>
+</html>
